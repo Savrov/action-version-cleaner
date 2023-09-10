@@ -10,15 +10,16 @@ internal class LoadPackagesByRepositoryUseCase(
         return packageRepository.loadPackages(
             organization = input.organization,
             packageType = input.packageType
-        ).also {
-            println("list size BEFORE=${it.getOrNull()?.count()}")
-        }.map { list ->
-            list.filter { item ->
-                item.repository?.name == input.repository
-            }
-        }.also {
-            println("list size AFTER=${it.getOrNull()?.count()}")
-        }
+        )
+//            .also {
+//            println("list size BEFORE=${it.getOrNull()?.count()}")
+//        }.map { list ->
+//            list.filter { item ->
+//                item.repository?.name == input.repository
+//            }
+//        }.also {
+//            println("list size AFTER=${it.getOrNull()?.count()}")
+//        }
     }
 
     data class Params(
