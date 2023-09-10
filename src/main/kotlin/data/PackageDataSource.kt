@@ -10,12 +10,10 @@ interface PackageDataSource {
         packageType: String,
     ): Result<Collection<Package>>
 
-    suspend fun getPackageVersions(
+    suspend fun deletePackage(
         organization: String,
         packageName: String,
         packageType: String,
-        page: Int,
-        count: Int,
-    ): Result<Collection<PackageVersion>>
+    ): Result<Unit>
 
 }

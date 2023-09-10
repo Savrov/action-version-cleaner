@@ -4,7 +4,7 @@ import model.Package
 
 internal class LoadPackagesByRepositoryUseCase(
     private val packageRepository: PackageRepository,
-) : SuspendUseCase<LoadPackagesByRepositoryUseCase.Params, Collection<Package>> {
+) : SuspendUseCase<LoadPackagesByRepositoryUseCase.Params, Result<Collection<Package>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<Package>> {
         return packageRepository.loadPackages(

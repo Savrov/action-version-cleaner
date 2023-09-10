@@ -9,4 +9,8 @@ interface PackageRepository {
         packageType: String,
     ): Result<Collection<Package>>
 
+    suspend fun deletePackages(
+        data: Collection<Package>
+    ): Collection<Result<Unit>>
+
 }

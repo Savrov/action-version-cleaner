@@ -6,7 +6,6 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 import model.Package
-import model.PackageVersion
 
 internal class RemotePackageDataSource(
     private val httpClient: HttpClient
@@ -20,23 +19,15 @@ internal class RemotePackageDataSource(
                     parameters.append("package_type", packageType.lowercase())
                 }
             }.body<List<Package>>()
-        }.fold(
-            onSuccess = {
-                Result.success(it)
-            },
-            onFailure = {
-                Result.failure(it)
-            }
-        )
+        }
     }
 
-    override suspend fun getPackageVersions(
-        organization: String,
-        packageName: String,
-        packageType: String,
-        page: Int,
-        count: Int
-    ): Result<Collection<PackageVersion>> {
-        TODO("Not yet implemented")
+    override suspend fun deletePackage(organization: String, packageName: String, packageType: String): Result<Unit> {
+        return runCatching {
+            httpClient.request("/orgs/$organization/packages/$packageType/$packageName") {
+                method = HttpMethod.Delete
+            }
+        }
     }
+
 }
