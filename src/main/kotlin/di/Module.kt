@@ -38,6 +38,7 @@ val module = module {
 
     single<HttpClient> {
         HttpClient(Apache5) {
+            expectSuccess = true
             install(Logging)
             install(DefaultRequest) {
                 url("https://api.github.com")
@@ -47,6 +48,10 @@ val module = module {
             }
             install(ContentNegotiation) {
                 json()
+            }
+            install(HttpRequestRetry) {
+                retryOnServerErrors(maxRetries = 5)
+                exponentialDelay()
             }
         }
     }
