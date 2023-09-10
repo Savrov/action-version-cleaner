@@ -12,11 +12,14 @@ fun main() = runBlocking {
         modules(module)
     }
 
-    val (organization, repository) = koinApp.koin.getProperty<String>("GITHUB_REPOSITORY")?.split("/")
-        ?: error("environment variable GITHUB_REPOSITORY is missing")
-    val packageType = koinApp.koin.getProperty<String>("PACKAGE_TYPE")
-        ?: error("environment variable PACKAGE_TYPE is missing")
-    print(
+//    val (organization, repository) = koinApp.koin.getProperty<String>("GITHUB_REPOSITORY")?.split("/")
+//        ?: error("environment variable GITHUB_REPOSITORY is missing")
+//    val packageType = koinApp.koin.getProperty<String>("PACKAGE_TYPE")
+//        ?: error("environment variable PACKAGE_TYPE is missing")
+    val organization = "credible-team"
+    val repository = "gradle-versions"
+    val packageType = "maven"
+    println(
         """
         | organization=$organization,
         | repository=$repository,
