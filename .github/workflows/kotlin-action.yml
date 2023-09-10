@@ -20,13 +20,4 @@ jobs:
 
       - name: Build and Test with Gradle
         run: |
-          ./gradlew run  # Replace with your Gradle build command
-
-#      - name: Build and Test
-#        run: |
-#          chmod +x gradlew  # Ensure that the gradlew script is executable
-#          ./gradlew build  # Execute the Gradle build
-#
-#      - name: Compile and Run Kotlin Script
-#        run: |
-#          java -cp build/classes/kotlin/main:build/resources/main system.Main.kt
+          ./gradlew run

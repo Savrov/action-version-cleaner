@@ -37,5 +37,12 @@ private suspend fun parseOrganizationRepositoryPackages(
         packageType = packageType
     )
     val loadPackagesByRepositoryResult = loadPackagesByRepositoryUseCase(loadPackagesByRepositoryParams)
-    println(loadPackagesByRepositoryResult)
+    loadPackagesByRepositoryResult.fold(
+        onSuccess = {
+            println("packages=$it")
+        },
+        onFailure = {
+            println("ex=$it")
+        }
+    )
 }
