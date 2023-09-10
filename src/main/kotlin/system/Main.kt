@@ -16,6 +16,13 @@ fun main() = runBlocking {
         ?: error("environment variable GITHUB_REPOSITORY is missing")
     val packageType = koinApp.koin.getProperty<String>("PACKAGE_TYPE")
         ?: error("environment variable PACKAGE_TYPE is missing")
+    print(
+        """
+        | organization=$organization,
+        | repository=$repository,
+        | packageType=$packageType
+        """.trimIndent()
+    )
     parseOrganizationRepositoryPackages(
         loadPackagesByRepositoryUseCase = koinApp.koin.get<LoadPackagesByRepositoryUseCase>(),
         organization = organization,
