@@ -21,4 +21,4 @@ jobs:
 
       - name: Compile and Run Kotlin Script
         run: |
-          java -cp build/classes/kotlin/main:build/resources/main src/main/kotlin/main.kt
+          java -cp build/classes/kotlin/main:build/resources/main system.main.kt

@@ -1,3 +1,5 @@
+package system
+
 import di.module
 import domain.LoadPackagesByRepositoryUseCase
 import kotlinx.coroutines.runBlocking
