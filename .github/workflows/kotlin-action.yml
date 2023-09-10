@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-
+env:
+  PACKAGES_TOKEN: ${{ secrets.WRITE_DELETE_PACKAGES_TOKEN }}
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,5 +16,5 @@ jobs:
 
       - name: Compile and Run Kotlin Script
         run: |
-          kotlinc src/main/kotlin/main.kt -include-runtime -d main.jar
+          kotlinc src/main/kotlin/App.kt -include-runtime -d main.jar
           java -jar main.jar
