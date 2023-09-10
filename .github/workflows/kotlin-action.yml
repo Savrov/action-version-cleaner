@@ -6,10 +6,11 @@ on:
       - main
 env:
   TOKEN: "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"
+  PACKAGE_TYPE: "maven"
+  GITHUB_REPOSITORY: "credible-team/gradle-versions"
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -19,7 +20,7 @@ jobs:
 
       - name: Build and Test with Gradle
         run: |
-          ./gradlew build run  # Replace with your Gradle build command
+          ./gradlew run  # Replace with your Gradle build command
 
 #      - name: Build and Test
 #        run: |
