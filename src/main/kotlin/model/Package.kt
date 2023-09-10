@@ -5,15 +5,15 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Package(
-    @SerialName("id") var id: Int? = null,
-    @SerialName("name") var name: String? = null,
-    @SerialName("package_type") var packageType: String? = null,
-    @SerialName("owner") var owner: Owner? = null,
-    @SerialName("version_count") var versionCount: Int? = null,
-    @SerialName("visibility") var visibility: String? = null,
-    @SerialName("url") var url: String? = null,
-    @SerialName("created_at") var createdAt: String? = null,
-    @SerialName("updated_at") var updatedAt: String? = null,
-    @SerialName("repository") var repository: Repository? = null,
-    @SerialName("html_url") var htmlUrl: String? = null
+    @SerialName("id") val id: Int? = null,
+    @SerialName("name") val name: String? = null,
+    @SerialName("package_type") val packageType: String? = null,
+    @SerialName("owner") val owner: Owner? = null,
+    @SerialName("version_count") val versionCount: Int? = null,
+    @SerialName("visibility") val visibility: String? = null,
+    @SerialName("url") val url: String? = null,
+    @SerialName("created_at") val createdAt: String? = null,
+    @SerialName("updated_at") val updatedAt: String? = null,
+    @SerialName("repository") val repository: Repository? = null,
+    @SerialName("html_url") val htmlUrl: String? = null
 )
