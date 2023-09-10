@@ -17,7 +17,5 @@ jobs:
 
       - name: Gradle Build Action
         uses: gradle/gradle-build-action@v2.8.0
-
-      - name: Build and Test with Gradle
         run: |
           ./gradlew run
