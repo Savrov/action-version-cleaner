@@ -1,5 +1,3 @@
-package system
-
 import model.Context
 
 fun main() {
