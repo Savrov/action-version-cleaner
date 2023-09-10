@@ -14,17 +14,12 @@ internal class RemotePackageDataSource(
 
     override suspend fun loadPackages(organization: String, packageType: String): Result<Collection<Package>> {
         return runCatching {
-            val response = httpClient.request("/orgs/$organization/packages") {
+            httpClient.request("/orgs/$organization/packages") {
                 method = HttpMethod.Get
                 url {
                     parameters.append("package_type", packageType.lowercase())
                 }
-            }
-            println("""
-                loadPackages response:
-                $response
-            """.trimIndent())
-            response.body<List<Package>>()
+            }.body<List<Package>>()
         }.fold(
             onSuccess = {
                 Result.success(it)

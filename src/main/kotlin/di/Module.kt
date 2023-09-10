@@ -39,7 +39,14 @@ val module = module {
     single<HttpClient> {
         HttpClient(Apache5) {
             expectSuccess = true
-            install(Logging)
+            install(Logging) {
+                logger = object : Logger {
+                    override fun log(message: String) {
+                        println(message)
+                    }
+                }
+                level = LogLevel.ALL
+            }
             install(DefaultRequest) {
                 url("https://api.github.com")
                 headers.appendIfNameAbsent("Accept", "application/vnd.github+json")
