@@ -19,7 +19,7 @@ jobs:
 
       - name: Build and Test with Gradle
         run: |
-          ./gradlew build  # Replace with your Gradle build command
+          ./gradlew build run  # Replace with your Gradle build command
 
 #      - name: Build and Test
 #        run: |
