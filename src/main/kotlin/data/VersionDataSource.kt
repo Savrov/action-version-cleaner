@@ -1,6 +1,5 @@
 package data
 
-import model.Package
 import model.PackageVersion
 
 interface VersionDataSource {
