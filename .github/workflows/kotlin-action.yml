@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  PACKAGES_TOKEN: ${{ secrets.WRITE_DELETE_PACKAGES_TOKEN }}
+  TOKEN: "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"
 jobs:
   build:
     runs-on: ubuntu-latest

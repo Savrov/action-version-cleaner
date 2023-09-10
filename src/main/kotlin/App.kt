@@ -1,11 +1,13 @@
+import model.Context
+
 fun main() {
-    val token = System.getenv("PACKAGES_TOKEN").also {
-        println("token: $it")
-    }
-    val organization = System.getenv("GITHUB_REPOSITORY_OWNER").also {
-        println("organization: $it")
-    }
-    val repository = System.getenv("GITHUB_REPOSITORY").also {
-        println("repository: $it")
-    }
+    val token = System.getenv("TOKEN")
+    val organization = System.getenv("GITHUB_REPOSITORY_OWNER")
+    val repository = System.getenv("GITHUB_REPOSITORY").split("/")[1]
+    val context = Context(
+        token = token,
+        organization = organization,
+        repository = repository
+    )
+    println("context=$context")
 }
