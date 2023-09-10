@@ -1,6 +1,6 @@
 package data
 
-import model.PackageVersion
+import model.Version
 
 interface VersionDataSource {
 
@@ -9,6 +9,13 @@ interface VersionDataSource {
         packageName: String,
         packageType: String,
         page: Int,
-    ): Result<Collection<PackageVersion>>
+    ): Result<Collection<Version>>
+
+    suspend fun deleteVersion(
+        versionId: Int,
+        organization: String,
+        packageName: String,
+        packageType: String,
+    ): Result<Int>
 
 }

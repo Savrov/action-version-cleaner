@@ -5,9 +5,6 @@ import data.DefaultVersionRepository
 import data.PackageDataSource
 import data.VersionDataSource
 import domain.*
-import domain.DeletePackagesUseCase
-import domain.LoadPackageVersionsUseCase
-import domain.LoadPackagesByRepositoryUseCase
 import infrastructure.RemotePackageDataSource
 import infrastructure.RemoteVersionDataSource
 import io.ktor.client.*
@@ -40,6 +37,12 @@ val module = module {
     factory {
         DeletePackagesUseCase(
             packageRepository = get()
+        )
+    }
+
+    factory {
+        DeleteVersionsUseCase(
+            versionRepository = get()
         )
     }
 

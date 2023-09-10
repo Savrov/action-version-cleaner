@@ -2,11 +2,12 @@ package system
 
 import di.module
 import domain.DeletePackagesUseCase
+import domain.DeleteVersionsUseCase
 import domain.LoadPackageVersionsUseCase
 import domain.LoadPackagesByRepositoryUseCase
 import kotlinx.coroutines.runBlocking
 import model.Package
-import model.PackageVersion
+import model.Version
 import org.koin.core.context.startKoin
 import org.koin.environmentProperties
 
@@ -31,37 +32,60 @@ fun main() = runBlocking {
         | packageType=$packageType
         """.trimIndent()
     )
-    loadOrganizationRepositoryPackages(
+
+    val packages = loadOrganizationRepositoryPackages(
         loadPackagesByRepositoryUseCase = koinApp.koin.get<LoadPackagesByRepositoryUseCase>(),
         organization = organization,
         repository = repository,
         packageType = packageType,
     ).fold(
         onSuccess = {
-            val packageWithVersions = it.associateWith {
-                loadOrganizationRepositoryPackageVersions(
-                    loadPackageVersionsUseCase = koinApp.koin.get<LoadPackageVersionsUseCase>(),
-                    organization = organization,
-                    packageName = it.name ?: error("package name is missing"),
-                    packageType = it.packageType ?: error("package type is missing")
-                ).fold(
-                    onSuccess = {
-                        it
-                    },
-                    onFailure = {
-                        TODO("Handle failure. Stop execution")
-                    }
-                )
-            }
-            println("packageWithVersions count = ${packageWithVersions.count()}")
-            deletePackageSnapshotVersion(
-                koinApp.koin.get<DeletePackagesUseCase>(),
-                packageWithVersions,
-                snapshotTag,
-            )
+            it
         },
         onFailure = {
-            TODO("Handle failure. Stop execution")
+            throw it
+        }
+    )
+
+    val packageVersionMap = packages.associate { p ->
+        loadOrganizationRepositoryPackageVersions(
+            loadPackageVersionsUseCase = koinApp.koin.get<LoadPackageVersionsUseCase>(),
+            organization = organization,
+            packageName = p.name ?: error("package name is missing"),
+            packageType = p.packageType ?: error("package type is missing")
+        ).fold(
+            onSuccess = { v ->
+                p to v
+            },
+            onFailure = {
+                throw it
+            }
+        )
+    }
+
+    deletePackages(
+        koinApp.koin.get<DeletePackagesUseCase>(),
+        packageVersionMap,
+        snapshotTag,
+    ).fold(
+        onSuccess = {
+            println("packages deleted: $it")
+        },
+        onFailure = {
+            throw it
+        }
+    )
+
+    deleteVersions(
+        koinApp.koin.get<DeleteVersionsUseCase>(),
+        packageVersionMap,
+        snapshotTag,
+    ).fold(
+        onSuccess = {
+            println("versions deleted: $it")
+        },
+        onFailure = {
+            throw it
         }
     )
 
@@ -86,8 +110,8 @@ private suspend fun loadOrganizationRepositoryPackageVersions(
     organization: String,
     packageName: String,
     packageType: String,
-): Result<Collection<PackageVersion>> {
-    val params  = LoadPackageVersionsUseCase.Params(
+): Result<Collection<Version>> {
+    val params = LoadPackageVersionsUseCase.Params(
         organization = organization,
         packageName = packageName,
         packageType = packageType,
@@ -95,33 +119,31 @@ private suspend fun loadOrganizationRepositoryPackageVersions(
     return loadPackageVersionsUseCase(params)
 }
 
-private suspend fun deletePackageSnapshotVersion(
+private suspend fun deletePackages(
     deletePackagesUseCase: DeletePackagesUseCase,
-    packageWithVersion: Map<Package, Collection<PackageVersion>>,
+    data: Map<Package, Collection<Version>>,
     snapshotTag: String,
-) {
-    val packageVersionsToDelete = packageWithVersion.filterValues {
-        it.count() > 1 && it.any { it.name == snapshotTag }
-    }.takeIf { it.isNotEmpty() }?.let {
-        TODO("delete SNAPSHOT version")
+): Result<Collection<String>> {
+    val dataToDelete = data.filterValues {
+        it.count() == 1 && it.all { it.name?.contains(snapshotTag) ?: false }
     }
-    // packages to delete
-    packageWithVersion.filterValues {
-        (it.count() == 1 && it.any { it.name == snapshotTag }) || it.isEmpty()
-    }.takeIf { it.isNotEmpty() }?.let {
-        val params = DeletePackagesUseCase.Params(
-            packages = it.keys
-        )
-        deletePackagesUseCase(params).forEach {
-            it.fold(
-                onSuccess = {
-                    println("package deleted")
-                },
-                onFailure = {
-                    println("package can not be delete. Ex: $it")
-                }
-            )
-        }
-    }
+    val params = DeletePackagesUseCase.Params(
+        packages = dataToDelete.keys
+    )
+    return deletePackagesUseCase(params)
+}
 
+private suspend fun deleteVersions(
+    deleteVersionsUseCase: DeleteVersionsUseCase,
+    data: Map<Package, Collection<Version>>,
+    snapshotTag: String,
+): Result<Collection<Int>> {
+    val dataToDelete = data.filterValues {
+        it.count() > 1 && it.all { it.name?.contains(snapshotTag) ?: false }
+    }
+    val params = DeleteVersionsUseCase.Params(
+        snapshotTag = snapshotTag,
+        data = dataToDelete
+    )
+    return deleteVersionsUseCase(params)
 }

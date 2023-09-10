@@ -1,13 +1,20 @@
 package domain
 
-import model.PackageVersion
+import model.Version
 
 interface VersionRepository {
 
-    suspend fun getVersions(
+    suspend fun loadVersions(
         organization: String,
         packageName: String,
         packageType: String,
-    ): Result<Collection<PackageVersion>>
+    ): Result<Collection<Version>>
+
+    suspend fun deleteVersions(
+        organization: String,
+        packageName: String,
+        packageType: String,
+        versionIds: Collection<Int>,
+    ): Collection<Result<Int>>
 
 }

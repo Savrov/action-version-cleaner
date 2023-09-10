@@ -22,12 +22,15 @@ internal class RemotePackageDataSource(
         }
     }
 
-    override suspend fun deletePackage(organization: String, packageName: String, packageType: String): Result<Unit> {
+    override suspend fun deletePackage(organization: String, packageName: String, packageType: String): Result<String> {
         return runCatching {
             httpClient.request("/orgs/$organization/packages/$packageType/$packageName") {
                 method = HttpMethod.Delete
             }
-        }
+        }.fold(
+            onSuccess = { Result.success(packageName) },
+            onFailure = { Result.failure(it) }
+        )
     }
 
 }

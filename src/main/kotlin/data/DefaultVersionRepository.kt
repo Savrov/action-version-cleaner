@@ -1,8 +1,10 @@
 package data
 
 import domain.VersionRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import model.PackageVersion
+import model.Version
 import kotlin.coroutines.CoroutineContext
 
 internal class DefaultVersionRepository(
@@ -10,13 +12,13 @@ internal class DefaultVersionRepository(
     private val coroutineContext: CoroutineContext,
 ) : VersionRepository {
 
-    override suspend fun getVersions(
+    override suspend fun loadVersions(
         organization: String,
         packageName: String,
         packageType: String
-    ): Result<Collection<PackageVersion>> {
+    ): Result<Collection<Version>> {
         return withContext(coroutineContext) {
-            val versions = mutableListOf<PackageVersion>()
+            val versions = mutableListOf<Version>()
             var isNextPageAvailable = false
             var page = 0
             do {
@@ -32,11 +34,32 @@ internal class DefaultVersionRepository(
                         isNextPageAvailable = it.isEmpty().not()
                     },
                     onFailure = {
-                        return@withContext Result.failure<Collection<PackageVersion>>(it)
+                        return@withContext Result.failure<Collection<Version>>(it)
                     }
                 )
             } while (isNextPageAvailable)
             Result.success(versions)
+        }
+    }
+
+    override suspend fun deleteVersions(
+        organization: String,
+        packageName: String,
+        packageType: String,
+        versionIds: Collection<Int>,
+    ): Collection<Result<Int>> {
+        return withContext(coroutineContext) {
+            val jobs = versionIds.map {
+                async {
+                    versionDataSource.deleteVersion(
+                        versionId = it,
+                        organization = organization,
+                        packageName = packageName,
+                        packageType = packageType,
+                    )
+                }
+            }
+            jobs.awaitAll()
         }
     }
 }

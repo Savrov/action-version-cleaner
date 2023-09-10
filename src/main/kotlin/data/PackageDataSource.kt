@@ -1,7 +1,6 @@
 package data
 
 import model.Package
-import model.PackageVersion
 
 interface PackageDataSource {
 
@@ -14,6 +13,6 @@ interface PackageDataSource {
         organization: String,
         packageName: String,
         packageType: String,
-    ): Result<Unit>
+    ): Result<String>
 
 }

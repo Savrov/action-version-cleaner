@@ -5,7 +5,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
 import model.Package
-import model.PackageVersion
 import kotlin.coroutines.CoroutineContext
 
 internal class DefaultPackageRepository(
@@ -21,7 +20,7 @@ internal class DefaultPackageRepository(
         }
     }
 
-    override suspend fun deletePackages(data: Collection<Package>): Collection<Result<Unit>> {
+    override suspend fun deletePackages(data: Collection<Package>): Collection<Result<String>> {
         return withContext(coroutineContext) {
             val jobs = data.map {
                 async {

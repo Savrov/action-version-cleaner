@@ -1,13 +1,13 @@
 package domain
 
-import model.PackageVersion
+import model.Version
 
 internal class LoadPackageVersionsUseCase(
     private val versionRepository: VersionRepository,
-): SuspendUseCase<LoadPackageVersionsUseCase.Params, Result<Collection<PackageVersion>>> {
+) : SuspendUseCase<LoadPackageVersionsUseCase.Params, Result<Collection<Version>>> {
 
-    override suspend fun invoke(input: Params): Result<Collection<PackageVersion>> {
-        return versionRepository.getVersions(
+    override suspend fun invoke(input: Params): Result<Collection<Version>> {
+        return versionRepository.loadVersions(
             organization = input.organization,
             packageName = input.packageName,
             packageType = input.packageType,
