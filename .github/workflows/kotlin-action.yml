@@ -14,11 +14,18 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Build and Test
-        run: |
-          chmod +x gradlew  # Ensure that the gradlew script is executable
-          ./gradlew build  # Execute the Gradle build
+      - name: Gradle Build Action
+        uses: gradle/gradle-build-action@v2.8.0
 
-      - name: Compile and Run Kotlin Script
+      - name: Build and Test with Gradle
         run: |
-          java -cp build/classes/kotlin/main:build/resources/main system.main.kt
+          ./gradlew build  # Replace with your Gradle build command
+
+#      - name: Build and Test
+#        run: |
+#          chmod +x gradlew  # Ensure that the gradlew script is executable
+#          ./gradlew build  # Execute the Gradle build
+#
+#      - name: Compile and Run Kotlin Script
+#        run: |
+#          java -cp build/classes/kotlin/main:build/resources/main system.Main.kt
