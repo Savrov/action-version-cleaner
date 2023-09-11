@@ -24,7 +24,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the JAR file built in the previous stage
-COPY --from=builder /app/build/libs/your-app.jar /app/your-app.jar
+COPY --from=builder /app/build/libs/action-version-cleaner-SNAPSHOT.jar /app/action-version-cleaner.jar
 
 # Run the application
-CMD ["java", "-jar", "your-app.jar"]
+CMD ["java", "-jar", "action-version-cleaner.jar"]
