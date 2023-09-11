@@ -35,10 +35,10 @@ val module = module {
     single {
         val (owner, repository) = getProperty<String>("GITHUB_REPOSITORY").split("/")
         Context(
-            owner = owner,
-            repository = repository,
-            packageType = getProperty("PACKAGE_TYPE"),
-            versionTag = getProperty("VERSION_TAG"),
+            owner = "credible-team", // owner,
+            repository = "gradle-versions", //repository,
+            packageType = "maven",// getProperty("PACKAGE_TYPE"),
+            versionTag = "SNAPSHOT", //getProperty("VERSION_TAG"),
         )
         //    val (organization, repository) = koinApp.koin.getProperty<String>("GITHUB_REPOSITORY")?.split("/")
 //        ?: error("environment variable GITHUB_REPOSITORY is missing")
@@ -125,7 +125,7 @@ val module = module {
             install(DefaultRequest) {
                 url("https://api.github.com")
                 headers.appendIfNameAbsent("Accept", "application/vnd.github+json")
-                headers.appendIfNameAbsent("Authorization", "Bearer ${getProperty<String>("GITHUB_TOKEN")}")
+                headers.appendIfNameAbsent("Authorization", "Bearer ${getPropertyOrNull<String>("GITHUB_TOKEN")}")
                 headers.appendIfNameAbsent("X-GitHub-Api-Version", "2022-11-28")
             }
             install(ContentNegotiation) {
