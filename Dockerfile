@@ -20,8 +20,11 @@ RUN gradle build -x test --no-daemon
 # Create the final runtime image
 FROM openjdk:11-jre-slim
 
-# Set execute permission for the JAR file
-RUN chmod +x /app/build/libs/action-version-cleaner-SNAPSHOT.jar
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the JAR file built in the previous stage
+COPY --from=builder /app/build/libs/action-version-cleaner-SNAPSHOT.jar /app/action-version-cleaner.jar
 
 # Run the application
-CMD ["java", "-jar", "/app/build/libs/action-version-cleaner-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/action-version-cleaner.jar"]
