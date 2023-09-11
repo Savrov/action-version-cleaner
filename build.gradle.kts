@@ -36,12 +36,6 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.9")
 }
 
-spotless {
-    kotlin {
-        ktlint("0.50.0")
-    }
-}
-
 tasks.test {
     useJUnitPlatform()
 }
@@ -52,9 +46,14 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+spotless {
+    kotlin {
+        ktlint("0.50.0")
+    }
+}
+
 tasks.withType<ShadowJar> {
-    minimize()
     manifest {
-        attributes["Main-Class"] = "team.credible.action.versioncleaner.system.AppKt"
+        attributes["Main-Class"] = application.mainClass.get()
     }
 }
