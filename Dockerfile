@@ -1,11 +1,11 @@
-# Use an official OpenJDK runtime as the base image
-FROM openjdk:11
-
-# Set the working directory in the container
+# Stage 1: Build the application
+FROM openjdk:11 AS builder
 WORKDIR /app
-
 COPY . /app/
-
-# Run the Gradle build inside the container
 RUN ./gradlew build -x test -x check
-RUN ./gradlew run
+
+# Stage 2: Create a smaller image for running the application
+FROM openjdk:11
+WORKDIR /app
+COPY --from=builder /app/build/libs/action-version-cleaner-SNAPSHOT.jar /app/action-version-cleaner-SNAPSHOT.jar
+CMD ["java", "-jar", "action-version-cleaner-SNAPSHOT.jar"]
