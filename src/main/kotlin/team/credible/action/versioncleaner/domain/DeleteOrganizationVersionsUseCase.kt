@@ -16,7 +16,7 @@ internal class DeleteOrganizationVersionsUseCase(
                     packageName = entry.key.name,
                     packageType = entry.key.packageType,
                     versionIds = entry.value
-                        .filter { it.name.contains(input.snapshotTag) }
+                        .filter { it.name.contains(input.versionTag) }
                         .map { it.id },
                 )
             }
@@ -34,7 +34,7 @@ internal class DeleteOrganizationVersionsUseCase(
     }
 
     data class Params(
-        val snapshotTag: String,
+        val versionTag: String,
         val data: Map<Package, Collection<Version>>,
     )
 }

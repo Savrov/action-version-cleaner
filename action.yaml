@@ -1,0 +1,24 @@
+name: "Version Cleaner Action"
+description: "A GitHub Action for deleting packages with specific version from a GitHub repository"
+inputs:
+  github_repository:
+    description: "The GitHub repository where snapshots will be deleted"
+    required: true
+  package_type:
+    description: "The package type to delete (e.g., maven)"
+    required: true
+  version_tag:
+    description: "The tag to use to identify version packages"
+    required: true
+  github_token:
+    description: "The GitHub token to use for deleting packages. See required scopes in README.md"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Gradle Build Action
+      uses: gradle/gradle-build-action@v2.8.0
+    - name: Build and Run with Gradle
+      shell: bash
+      run: |
+        ./gradlew run

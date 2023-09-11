@@ -47,7 +47,7 @@ internal class OrganizationFlow(
     context (Context)
     override suspend fun deletePackages(packageVersionMap: Map<Package, Collection<Version>>): Result<Collection<String>> {
         val dataToDelete = packageVersionMap.filterValues {
-            it.count() == 1 && it.all { it.name.contains(snapshotTag) }
+            it.count() == 1 && it.all { it.name.contains(versionTag) }
         }
         val params = DeleteOrganizationPackagesUseCase.Params(
             packages = dataToDelete.keys,
@@ -58,10 +58,10 @@ internal class OrganizationFlow(
     context (Context)
     override suspend fun deleteVersions(packageVersionMap: Map<Package, Collection<Version>>): Result<Collection<Int>> {
         val dataToDelete = packageVersionMap.filterValues {
-            it.count() > 1 && it.all { it.name.contains(snapshotTag) }
+            it.count() > 1 && it.all { it.name.contains(versionTag) }
         }
         val params = DeleteOrganizationVersionsUseCase.Params(
-            snapshotTag = snapshotTag,
+            versionTag = versionTag,
             data = dataToDelete,
         )
         return deleteOrganizationVersionsUseCase(params)
