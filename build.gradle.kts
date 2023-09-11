@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.net.URI
 
 plugins {
     kotlin("jvm") version "1.9.0"
@@ -49,18 +48,5 @@ tasks.withType<KotlinCompile> {
 spotless {
     kotlin {
         ktlint("0.50.0")
-    }
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = URI.create("https://maven.pkg.github.com/credible-team/action-version-cleaner")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
     }
 }

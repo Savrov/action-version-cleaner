@@ -1,5 +1,8 @@
 # Use an official OpenJDK runtime as the base image
-FROM gradle:jdk20
+FROM openjdk:11
+
+# Set the working directory in the container
+WORKDIR /app
 
 COPY . /app/
 
