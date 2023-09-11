@@ -9,7 +9,7 @@ plugins {
 }
 
 application {
-    mainClass.set("team.credible.action.versioncleaner.system.App")
+    mainClass.set("team.credible.action.versioncleaner.system.AppKt")
 }
 
 repositories {
@@ -46,5 +46,11 @@ tasks.withType<KotlinCompile> {
 spotless {
     kotlin {
         ktlint("0.50.0")
+    }
+}
+
+tasks.withType<Jar> {
+    manifest {
+        attributes["Main-Class"] = "team.credible.action.versioncleaner.system.App"
     }
 }
