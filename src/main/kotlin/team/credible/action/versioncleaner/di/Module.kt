@@ -33,11 +33,12 @@ import team.credible.action.versioncleaner.system.OrganizationFlow
 val module = module {
 
     single {
+        val (owner, repository) = getProperty<String>("GITHUB_REPOSITORY").split("/")
         Context(
-            owner = "credible-team",
-            repository = "gradle-versions",
-            packageType = "maven",
-            versionTag = "SNAPSHOT",
+            owner = owner,
+            repository = repository,
+            packageType = getProperty("PACKAGE_TYPE"),
+            versionTag = getProperty("SNAPSHOT_TAG"),
         )
         //    val (organization, repository) = koinApp.koin.getProperty<String>("GITHUB_REPOSITORY")?.split("/")
 //        ?: error("environment variable GITHUB_REPOSITORY is missing")
