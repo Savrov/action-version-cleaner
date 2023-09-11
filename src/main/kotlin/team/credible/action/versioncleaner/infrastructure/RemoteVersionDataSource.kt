@@ -1,11 +1,11 @@
-package infrastructure
+package team.credible.action.versioncleaner.infrastructure
 
-import data.VersionDataSource
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
-import model.Version
+import team.credible.action.versioncleaner.data.VersionDataSource
+import team.credible.action.versioncleaner.model.Version
 
 internal class RemoteVersionDataSource(
     private val httpClient: HttpClient

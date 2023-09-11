@@ -1,10 +1,9 @@
-package model
+package team.credible.action.versioncleaner.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Version(
-    @SerialName("id") val id: Int,
+data class Repository(
     @SerialName("name") val name: String,
 )

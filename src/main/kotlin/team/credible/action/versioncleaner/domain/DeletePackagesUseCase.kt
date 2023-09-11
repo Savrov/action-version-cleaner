@@ -1,7 +1,7 @@
-package domain
+package team.credible.action.versioncleaner.domain
 
-import model.ExceptionsBundle
-import model.Package
+import team.credible.action.versioncleaner.model.ExceptionsBundle
+import team.credible.action.versioncleaner.model.Package
 
 internal class DeletePackagesUseCase(
     private val packageRepository: PackageRepository,

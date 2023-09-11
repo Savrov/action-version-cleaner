@@ -1,8 +1,8 @@
-package system
+package team.credible.action.versioncleaner.system
 
-import model.Context
-import model.Package
-import model.Version
+import team.credible.action.versioncleaner.model.Context
+import team.credible.action.versioncleaner.model.Package
+import team.credible.action.versioncleaner.model.Version
 
 abstract class AbstractFlow {
 

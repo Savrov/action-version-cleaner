@@ -1,6 +1,6 @@
-package domain
+package team.credible.action.versioncleaner.domain
 
-import model.Package
+import team.credible.action.versioncleaner.model.Package
 
 internal class LoadPackagesByRepositoryUseCase(
     private val packageRepository: PackageRepository,

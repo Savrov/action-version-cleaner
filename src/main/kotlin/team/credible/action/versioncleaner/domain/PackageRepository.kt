@@ -1,6 +1,6 @@
-package domain
+package team.credible.action.versioncleaner.domain
 
-import model.Package
+import team.credible.action.versioncleaner.model.Package
 
 interface PackageRepository {
 

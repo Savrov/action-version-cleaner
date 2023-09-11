@@ -1,4 +1,4 @@
-package model
+package team.credible.action.versioncleaner.model
 
 data class Context(
     val organization: String,

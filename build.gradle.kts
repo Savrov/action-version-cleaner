@@ -8,11 +8,8 @@ plugins {
 }
 
 application {
-    mainClass.set("system.AppKt")
+    mainClass.set("team.credible.action.versioncleaner.system.AppKt")
 }
-
-group = "team.credible"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -42,5 +39,4 @@ tasks.withType<KotlinCompile> {
         jvmTarget = JvmTarget.JVM_11.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
     }
-
 }

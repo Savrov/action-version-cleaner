@@ -1,6 +1,6 @@
-package data
+package team.credible.action.versioncleaner.data
 
-import model.Version
+import team.credible.action.versioncleaner.model.Version
 
 interface VersionDataSource {
 

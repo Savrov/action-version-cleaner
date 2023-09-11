@@ -1,6 +1,6 @@
-package domain
+package team.credible.action.versioncleaner.domain
 
-import model.Version
+import team.credible.action.versioncleaner.model.Version
 
 interface VersionRepository {
 

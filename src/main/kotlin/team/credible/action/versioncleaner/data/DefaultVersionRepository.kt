@@ -1,10 +1,10 @@
-package data
+package team.credible.action.versioncleaner.data
 
-import domain.VersionRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import model.Version
+import team.credible.action.versioncleaner.domain.VersionRepository
+import team.credible.action.versioncleaner.model.Version
 import kotlin.coroutines.CoroutineContext
 
 internal class DefaultVersionRepository(

@@ -1,12 +1,5 @@
-package di
+package team.credible.action.versioncleaner.di
 
-import data.DefaultPackageRepository
-import data.DefaultVersionRepository
-import data.PackageDataSource
-import data.VersionDataSource
-import domain.*
-import infrastructure.RemotePackageDataSource
-import infrastructure.RemoteVersionDataSource
 import io.ktor.client.*
 import io.ktor.client.engine.apache5.*
 import io.ktor.client.plugins.*
@@ -15,9 +8,15 @@ import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
-import model.Context
 import org.koin.dsl.module
-import system.OrganizationFlow
+import team.credible.action.versioncleaner.data.DefaultVersionRepository
+import team.credible.action.versioncleaner.data.PackageDataSource
+import team.credible.action.versioncleaner.data.VersionDataSource
+import team.credible.action.versioncleaner.domain.*
+import team.credible.action.versioncleaner.infrastructure.RemotePackageDataSource
+import team.credible.action.versioncleaner.infrastructure.RemoteVersionDataSource
+import team.credible.action.versioncleaner.model.Context
+import team.credible.action.versioncleaner.system.OrganizationFlow
 
 val module = module {
 
@@ -39,7 +38,7 @@ val module = module {
     }
 
     single<PackageRepository> {
-        DefaultPackageRepository(
+        team.credible.action.versioncleaner.data.DefaultPackageRepository(
             packageDataSource = get(),
             coroutineContext = Dispatchers.IO
         )

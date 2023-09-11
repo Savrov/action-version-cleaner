@@ -1,10 +1,10 @@
-package system
+package team.credible.action.versioncleaner.system
 
-import di.module
 import kotlinx.coroutines.runBlocking
-import model.Context
 import org.koin.core.context.startKoin
 import org.koin.environmentProperties
+import team.credible.action.versioncleaner.di.module
+import team.credible.action.versioncleaner.model.Context
 
 fun main() = runBlocking {
     val koinApp = startKoin {

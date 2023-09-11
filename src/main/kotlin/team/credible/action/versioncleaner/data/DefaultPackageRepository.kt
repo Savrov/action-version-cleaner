@@ -1,10 +1,10 @@
-package data
+package team.credible.action.versioncleaner.data
 
-import domain.PackageRepository
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
-import model.Package
+import team.credible.action.versioncleaner.domain.PackageRepository
+import team.credible.action.versioncleaner.model.Package
 import kotlin.coroutines.CoroutineContext
 
 internal class DefaultPackageRepository(
@@ -20,7 +20,9 @@ internal class DefaultPackageRepository(
         }
     }
 
-    override suspend fun deletePackages(data: Collection<Package>): Collection<Result<String>> {
+    override suspend fun deletePackages(
+        data: Collection<Package>
+    ): Collection<Result<String>> {
         return withContext(coroutineContext) {
             val jobs = data.map {
                 async {

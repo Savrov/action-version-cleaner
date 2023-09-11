@@ -1,6 +1,6 @@
-package data
+package team.credible.action.versioncleaner.data
 
-import model.Package
+import team.credible.action.versioncleaner.model.Package
 
 interface PackageDataSource {
 

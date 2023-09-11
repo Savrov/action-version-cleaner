@@ -1,8 +1,8 @@
-package domain
+package team.credible.action.versioncleaner.domain
 
-import model.ExceptionsBundle
-import model.Package
-import model.Version
+import team.credible.action.versioncleaner.model.ExceptionsBundle
+import team.credible.action.versioncleaner.model.Package
+import team.credible.action.versioncleaner.model.Version
 
 internal class DeleteVersionsUseCase(
     private val versionRepository: VersionRepository,

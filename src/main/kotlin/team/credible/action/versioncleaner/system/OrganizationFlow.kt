@@ -1,12 +1,12 @@
-package system
+package team.credible.action.versioncleaner.system
 
-import domain.DeletePackagesUseCase
-import domain.DeleteVersionsUseCase
-import domain.LoadPackageVersionsUseCase
-import domain.LoadPackagesByRepositoryUseCase
-import model.Context
-import model.Package
-import model.Version
+import team.credible.action.versioncleaner.domain.DeletePackagesUseCase
+import team.credible.action.versioncleaner.domain.DeleteVersionsUseCase
+import team.credible.action.versioncleaner.domain.LoadPackageVersionsUseCase
+import team.credible.action.versioncleaner.domain.LoadPackagesByRepositoryUseCase
+import team.credible.action.versioncleaner.model.Context
+import team.credible.action.versioncleaner.model.Package
+import team.credible.action.versioncleaner.model.Version
 
 internal class OrganizationFlow(
     private val loadPackagesByRepositoryUseCase: LoadPackagesByRepositoryUseCase,
