@@ -125,7 +125,7 @@ val module = module {
             install(DefaultRequest) {
                 url("https://api.github.com")
                 headers.appendIfNameAbsent("Accept", "application/vnd.github+json")
-                headers.appendIfNameAbsent("Authorization", "Bearer ${getPropertyOrNull<String>("GITHUB_TOKEN")}")
+                headers.appendIfNameAbsent("Authorization", "Bearer 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")
                 headers.appendIfNameAbsent("X-GitHub-Api-Version", "2022-11-28")
             }
             install(ContentNegotiation) {
