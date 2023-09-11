@@ -8,4 +8,8 @@ RUN ./gradlew build -x test -x check
 FROM openjdk:11
 WORKDIR /app
 COPY --from=builder /app/build/libs/action-version-cleaner-SNAPSHOT.jar /app/action-version-cleaner-SNAPSHOT.jar
+
+RUN echo "/app structure:"
+RUN ls -l
+
 CMD ["java", "-jar", "action-version-cleaner-SNAPSHOT.jar"]
