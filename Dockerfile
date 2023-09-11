@@ -26,5 +26,8 @@ WORKDIR /app
 # Copy the JAR file built in the previous stage
 COPY --from=builder /app/build/libs/action-version-cleaner-SNAPSHOT.jar /app/action-version-cleaner.jar
 
+# Set execute permission for the JAR file
+RUN chmod +x /app/action-version-cleaner.jar
+
 # Run the application
 CMD ["java", "-jar", "action-version-cleaner.jar"]
