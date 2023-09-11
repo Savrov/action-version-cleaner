@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.serialization") version "1.9.0"
     id("com.diffplug.spotless") version "6.21.0"
     id("org.gradle.maven-publish")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     application
 }
 

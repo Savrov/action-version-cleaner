@@ -1,6 +1,13 @@
-# Stage 1: Build the application
-FROM openjdk:11 AS builder
-WORKDIR /app
-COPY . /app/
-RUN ./gradlew clean build -x test -x check
-RUN ./gradlew run
+ARG VERSION=11
+FROM openjdk:${VERSION}-jdk as BUILD
+
+COPY . /src
+WORKDIR /src
+RUN ./gradlew --no-daemon shadowJar
+
+FROM openjdk:${VERSION}-jre
+
+COPY --from=BUILD /src/build/libs/*.jar /bin/runner/run.jar
+WORKDIR /bin/runner
+
+CMD ["java","-jar","run.jar"]
