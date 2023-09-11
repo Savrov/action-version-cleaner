@@ -20,7 +20,5 @@ runs:
       uses: actions/checkout@v3
     - name: Gradle Build Action
       uses: gradle/gradle-build-action@v2.8.0
-    - name: Build and Run with Gradle
-      shell: bash
-      run: |
-        ./gradlew run
+      with:
+        arguments: run
