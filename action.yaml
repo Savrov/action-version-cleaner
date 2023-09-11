@@ -14,9 +14,11 @@ inputs:
     description: "The GitHub token to use for deleting packages. See required scopes in README.md"
     required: true
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Checkout repository
       uses: actions/checkout@v3
     - name: Gradle Build Action
       uses: gradle/gradle-build-action@v2.8.0
+      with:
+        arguments: build
