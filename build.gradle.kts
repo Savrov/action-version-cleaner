@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -35,6 +36,12 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:1.2.9")
 }
 
+spotless {
+    kotlin {
+        ktlint("0.50.0")
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
@@ -45,13 +52,8 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-spotless {
-    kotlin {
-        ktlint("0.50.0")
-    }
-}
-
-tasks.withType<Jar> {
+tasks.withType<ShadowJar> {
+    minimize()
     manifest {
         attributes["Main-Class"] = "team.credible.action.versioncleaner.system.AppKt"
     }
