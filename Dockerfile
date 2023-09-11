@@ -32,4 +32,4 @@ RUN ls -la
 RUN chmod +x /app/action-version-cleaner.jar
 
 # Run the application
-CMD ["java", "-jar", "action-version-cleaner.jar"]
+CMD ["java", "-jar", "/app/action-version-cleaner.jar"]
