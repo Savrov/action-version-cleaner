@@ -9,7 +9,7 @@ plugins {
 }
 
 application {
-    mainClass.set("team.credible.action.versioncleaner.system.AppKt")
+    mainClass.set("team.credible.action.versioncleaner.system.App")
 }
 
 repositories {
