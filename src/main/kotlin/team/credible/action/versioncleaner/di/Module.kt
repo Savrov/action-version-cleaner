@@ -33,7 +33,7 @@ import team.credible.action.versioncleaner.system.OrganizationFlow
 val module = module {
 
     single {
-        val (owner, repository) = getProperty<String>("GITHUB_REPOSITORY").split("/")
+//        val (owner, repository) = getProperty<String>("GITHUB_REPOSITORY").split("/")
         Context(
             owner = "credible-team", // owner,
             repository = "gradle-versions", // repository,
