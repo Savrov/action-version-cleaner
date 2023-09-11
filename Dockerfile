@@ -9,7 +9,4 @@ COPY . /app/
 RUN ls -la
 
 # Run the Gradle build inside the container
-RUN ./gradlew build
-
-# Specify the default command to run when the container starts
-CMD ["./gradlew", "run"]
+RUN ./gradlew build run
