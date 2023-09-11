@@ -51,6 +51,6 @@ spotless {
 
 tasks.withType<Jar> {
     manifest {
-        attributes["Main-Class"] = "team.credible.action.versioncleaner.system.App"
+        attributes["Main-Class"] = "team.credible.action.versioncleaner.system.AppKt"
     }
 }
