@@ -11,16 +11,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 import team.credible.action.versioncleaner.data.DefaultPackageRepository
+import team.credible.action.versioncleaner.data.DefaultRepositoryRepository
 import team.credible.action.versioncleaner.data.DefaultVersionRepository
 import team.credible.action.versioncleaner.data.PackageDataSource
+import team.credible.action.versioncleaner.data.RepositoryDataSource
 import team.credible.action.versioncleaner.data.VersionDataSource
-import team.credible.action.versioncleaner.domain.DeletePackagesUseCase
-import team.credible.action.versioncleaner.domain.DeleteVersionsUseCase
-import team.credible.action.versioncleaner.domain.LoadPackageVersionsUseCase
-import team.credible.action.versioncleaner.domain.LoadPackagesByRepositoryUseCase
+import team.credible.action.versioncleaner.domain.DeleteOrganizationPackagesUseCase
+import team.credible.action.versioncleaner.domain.DeleteOrganizationVersionsUseCase
+import team.credible.action.versioncleaner.domain.IsRepositoryOwnedByUserUseCase
+import team.credible.action.versioncleaner.domain.LoadOrganizationPackageVersionsUseCase
+import team.credible.action.versioncleaner.domain.LoadOrganizationPackagesByRepositoryUseCase
 import team.credible.action.versioncleaner.domain.PackageRepository
+import team.credible.action.versioncleaner.domain.RepositoryRepository
 import team.credible.action.versioncleaner.domain.VersionRepository
 import team.credible.action.versioncleaner.infrastructure.RemotePackageDataSource
+import team.credible.action.versioncleaner.infrastructure.RemoteRepositoryDataSource
 import team.credible.action.versioncleaner.infrastructure.RemoteVersionDataSource
 import team.credible.action.versioncleaner.model.Context
 import team.credible.action.versioncleaner.system.OrganizationFlow
@@ -29,7 +34,7 @@ val module = module {
 
     single {
         Context(
-            organization = "credible-team",
+            owner = "credible-team",
             repository = "gradle-versions",
             packageType = "maven",
             snapshotTag = "SNAPSHOT",
@@ -51,6 +56,13 @@ val module = module {
         )
     }
 
+    single<RepositoryRepository> {
+        DefaultRepositoryRepository(
+            repositoryDataSource = get(),
+            coroutineContext = Dispatchers.IO,
+        )
+    }
+
     single<VersionRepository> {
         DefaultVersionRepository(
             versionDataSource = get(),
@@ -59,31 +71,43 @@ val module = module {
     }
 
     factory {
-        DeletePackagesUseCase(
+        DeleteOrganizationPackagesUseCase(
             packageRepository = get(),
         )
     }
 
     factory {
-        DeleteVersionsUseCase(
+        IsRepositoryOwnedByUserUseCase(
+            repositoryRepository = get(),
+        )
+    }
+
+    factory {
+        DeleteOrganizationVersionsUseCase(
             versionRepository = get(),
         )
     }
 
     factory {
-        LoadPackagesByRepositoryUseCase(
+        LoadOrganizationPackagesByRepositoryUseCase(
             packageRepository = get(),
         )
     }
 
     factory {
-        LoadPackageVersionsUseCase(
+        LoadOrganizationPackageVersionsUseCase(
             versionRepository = get(),
         )
     }
 
     single<PackageDataSource> {
         RemotePackageDataSource(
+            httpClient = get(),
+        )
+    }
+
+    single<RepositoryDataSource> {
+        RemoteRepositoryDataSource(
             httpClient = get(),
         )
     }
@@ -125,10 +149,10 @@ val module = module {
 
     single {
         OrganizationFlow(
-            loadPackagesByRepositoryUseCase = get(),
-            loadPackageVersionsUseCase = get(),
-            deletePackagesUseCase = get(),
-            deleteVersionsUseCase = get(),
+            loadOrganizationPackagesByRepositoryUseCase = get(),
+            loadOrganizationPackageVersionsUseCase = get(),
+            deleteOrganizationPackagesUseCase = get(),
+            deleteOrganizationVersionsUseCase = get(),
         )
     }
 }

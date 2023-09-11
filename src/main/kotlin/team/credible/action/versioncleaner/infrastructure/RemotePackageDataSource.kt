@@ -12,7 +12,7 @@ internal class RemotePackageDataSource(
     private val httpClient: HttpClient,
 ) : PackageDataSource {
 
-    override suspend fun loadPackages(
+    override suspend fun loadOrganizationPackages(
         organization: String,
         packageType: String,
     ): Result<Collection<Package>> {
@@ -28,7 +28,7 @@ internal class RemotePackageDataSource(
         }
     }
 
-    override suspend fun deletePackage(
+    override suspend fun deleteOrganizationPackage(
         organization: String,
         packageName: String,
         packageType: String,

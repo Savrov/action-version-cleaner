@@ -3,12 +3,12 @@ package team.credible.action.versioncleaner.domain
 import team.credible.action.versioncleaner.model.ExceptionsBundle
 import team.credible.action.versioncleaner.model.Package
 
-internal class DeletePackagesUseCase(
+internal class DeleteOrganizationPackagesUseCase(
     private val packageRepository: PackageRepository,
-) : SuspendUseCase<DeletePackagesUseCase.Params, Result<Collection<String>>> {
+) : SuspendUseCase<DeleteOrganizationPackagesUseCase.Params, Result<Collection<String>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<String>> {
-        val result = packageRepository.deletePackages(input.packages)
+        val result = packageRepository.deleteOrganizationPackages(input.packages)
         val names = result.flatMap {
             it.getOrNull()?.let { listOf(it) } ?: listOf()
         }

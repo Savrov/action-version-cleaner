@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Owner(
     @SerialName("login") val login: String,
+    @SerialName("type") val type: String,
 )

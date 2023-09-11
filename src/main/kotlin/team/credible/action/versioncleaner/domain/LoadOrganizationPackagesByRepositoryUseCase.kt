@@ -2,12 +2,12 @@ package team.credible.action.versioncleaner.domain
 
 import team.credible.action.versioncleaner.model.Package
 
-internal class LoadPackagesByRepositoryUseCase(
+internal class LoadOrganizationPackagesByRepositoryUseCase(
     private val packageRepository: PackageRepository,
-) : SuspendUseCase<LoadPackagesByRepositoryUseCase.Params, Result<Collection<Package>>> {
+) : SuspendUseCase<LoadOrganizationPackagesByRepositoryUseCase.Params, Result<Collection<Package>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<Package>> {
-        return packageRepository.loadPackages(
+        return packageRepository.loadOrganizationPackages(
             organization = input.organization,
             packageType = input.packageType,
         ).map { list ->

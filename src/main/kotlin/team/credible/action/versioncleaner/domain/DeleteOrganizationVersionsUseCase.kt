@@ -4,14 +4,14 @@ import team.credible.action.versioncleaner.model.ExceptionsBundle
 import team.credible.action.versioncleaner.model.Package
 import team.credible.action.versioncleaner.model.Version
 
-internal class DeleteVersionsUseCase(
+internal class DeleteOrganizationVersionsUseCase(
     private val versionRepository: VersionRepository,
-) : SuspendUseCase<DeleteVersionsUseCase.Params, Result<Collection<Int>>> {
+) : SuspendUseCase<DeleteOrganizationVersionsUseCase.Params, Result<Collection<Int>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<Int>> {
         val result = input.data
             .flatMap { entry ->
-                versionRepository.deleteVersions(
+                versionRepository.deleteOrganizationVersions(
                     organization = entry.key.owner.login,
                     packageName = entry.key.name,
                     packageType = entry.key.packageType,

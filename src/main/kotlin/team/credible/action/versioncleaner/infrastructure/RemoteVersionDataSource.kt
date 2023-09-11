@@ -12,7 +12,7 @@ internal class RemoteVersionDataSource(
     private val httpClient: HttpClient,
 ) : VersionDataSource {
 
-    override suspend fun getVersions(
+    override suspend fun getOrganizationVersions(
         organization: String,
         packageName: String,
         packageType: String,
@@ -32,7 +32,7 @@ internal class RemoteVersionDataSource(
         }
     }
 
-    override suspend fun deleteVersion(
+    override suspend fun deleteOrganizationVersion(
         versionId: Int,
         organization: String,
         packageName: String,

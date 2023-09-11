@@ -4,13 +4,13 @@ import team.credible.action.versioncleaner.model.Version
 
 interface VersionRepository {
 
-    suspend fun loadVersions(
+    suspend fun loadOrganizationVersions(
         organization: String,
         packageName: String,
         packageType: String,
     ): Result<Collection<Version>>
 
-    suspend fun deleteVersions(
+    suspend fun deleteOrganizationVersions(
         organization: String,
         packageName: String,
         packageType: String,

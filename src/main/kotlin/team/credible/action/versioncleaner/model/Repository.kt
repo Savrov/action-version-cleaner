@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Repository(
     @SerialName("name") val name: String,
+    @SerialName("owner") val owner: Owner,
 )

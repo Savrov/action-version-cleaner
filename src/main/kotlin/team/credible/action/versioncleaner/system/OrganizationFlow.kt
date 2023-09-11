@@ -1,39 +1,39 @@
 package team.credible.action.versioncleaner.system
 
-import team.credible.action.versioncleaner.domain.DeletePackagesUseCase
-import team.credible.action.versioncleaner.domain.DeleteVersionsUseCase
-import team.credible.action.versioncleaner.domain.LoadPackageVersionsUseCase
-import team.credible.action.versioncleaner.domain.LoadPackagesByRepositoryUseCase
+import team.credible.action.versioncleaner.domain.DeleteOrganizationPackagesUseCase
+import team.credible.action.versioncleaner.domain.DeleteOrganizationVersionsUseCase
+import team.credible.action.versioncleaner.domain.LoadOrganizationPackageVersionsUseCase
+import team.credible.action.versioncleaner.domain.LoadOrganizationPackagesByRepositoryUseCase
 import team.credible.action.versioncleaner.model.Context
 import team.credible.action.versioncleaner.model.Package
 import team.credible.action.versioncleaner.model.Version
 
 internal class OrganizationFlow(
-    private val loadPackagesByRepositoryUseCase: LoadPackagesByRepositoryUseCase,
-    private val loadPackageVersionsUseCase: LoadPackageVersionsUseCase,
-    private val deletePackagesUseCase: DeletePackagesUseCase,
-    private val deleteVersionsUseCase: DeleteVersionsUseCase,
+    private val loadOrganizationPackagesByRepositoryUseCase: LoadOrganizationPackagesByRepositoryUseCase,
+    private val loadOrganizationPackageVersionsUseCase: LoadOrganizationPackageVersionsUseCase,
+    private val deleteOrganizationPackagesUseCase: DeleteOrganizationPackagesUseCase,
+    private val deleteOrganizationVersionsUseCase: DeleteOrganizationVersionsUseCase,
 ) : AbstractFlow() {
     context (Context)
     override suspend fun loadPackages(): Result<Collection<Package>> {
-        val params = LoadPackagesByRepositoryUseCase.Params(
-            organization = organization,
+        val params = LoadOrganizationPackagesByRepositoryUseCase.Params(
+            organization = owner,
             repository = repository,
             packageType = packageType,
         )
-        return loadPackagesByRepositoryUseCase(params)
+        return loadOrganizationPackagesByRepositoryUseCase(params)
     }
 
     context (Context)
     override suspend fun loadPackageVersions(packages: Collection<Package>): Result<Map<Package, Collection<Version>>> {
         return runCatching {
             packages.associate { p ->
-                val params = LoadPackageVersionsUseCase.Params(
+                val params = LoadOrganizationPackageVersionsUseCase.Params(
                     organization = p.owner.login,
                     packageName = p.name,
                     packageType = p.packageType,
                 )
-                loadPackageVersionsUseCase(params).fold(
+                loadOrganizationPackageVersionsUseCase(params).fold(
                     onSuccess = { p to it },
                     onFailure = { throw it },
                 )
@@ -49,10 +49,10 @@ internal class OrganizationFlow(
         val dataToDelete = packageVersionMap.filterValues {
             it.count() == 1 && it.all { it.name.contains(snapshotTag) }
         }
-        val params = DeletePackagesUseCase.Params(
+        val params = DeleteOrganizationPackagesUseCase.Params(
             packages = dataToDelete.keys,
         )
-        return deletePackagesUseCase(params)
+        return deleteOrganizationPackagesUseCase(params)
     }
 
     context (Context)
@@ -60,10 +60,10 @@ internal class OrganizationFlow(
         val dataToDelete = packageVersionMap.filterValues {
             it.count() > 1 && it.all { it.name.contains(snapshotTag) }
         }
-        val params = DeleteVersionsUseCase.Params(
+        val params = DeleteOrganizationVersionsUseCase.Params(
             snapshotTag = snapshotTag,
             data = dataToDelete,
         )
-        return deleteVersionsUseCase(params)
+        return deleteOrganizationVersionsUseCase(params)
     }
 }

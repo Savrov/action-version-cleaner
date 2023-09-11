@@ -11,22 +11,22 @@ internal class DefaultPackageRepository(
     private val packageDataSource: PackageDataSource,
     private val coroutineContext: CoroutineContext,
 ) : PackageRepository {
-    override suspend fun loadPackages(
+    override suspend fun loadOrganizationPackages(
         organization: String,
         packageType: String,
     ): Result<Collection<Package>> {
         return withContext(coroutineContext) {
-            packageDataSource.loadPackages(organization, packageType)
+            packageDataSource.loadOrganizationPackages(organization, packageType)
         }
     }
 
-    override suspend fun deletePackages(
+    override suspend fun deleteOrganizationPackages(
         data: Collection<Package>,
     ): Collection<Result<String>> {
         return withContext(coroutineContext) {
             val jobs = data.map {
                 async {
-                    packageDataSource.deletePackage(
+                    packageDataSource.deleteOrganizationPackage(
                         organization = it.owner.login,
                         packageName = it.name,
                         packageType = it.packageType,
