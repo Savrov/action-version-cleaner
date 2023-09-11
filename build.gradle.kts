@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -7,7 +8,7 @@ plugins {
 }
 
 application {
-    mainClass.set("system.MainKt")
+    mainClass.set("system.AppKt")
 }
 
 group = "team.credible"
@@ -37,5 +38,9 @@ tasks.test {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions {
+        jvmTarget = JvmTarget.JVM_18.toString()
+        freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
+    }
+
 }

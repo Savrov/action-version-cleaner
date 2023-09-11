@@ -8,6 +8,7 @@ env:
   TOKEN: "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"
   PACKAGE_TYPE: "maven"
   GITHUB_REPOSITORY: "credible-team/gradle-versions"
+  SNAPSHOT_TAG: "SNAPSHOT"
 jobs:
   build:
     runs-on: ubuntu-latest

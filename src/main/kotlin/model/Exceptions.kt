@@ -1,6 +1,6 @@
 package model
 
-class ExceptionsBundle(private val throwables: List<Throwable>) : Exception() {
+class ExceptionsBundle(private val exceptions: List<Throwable>) : Exception() {
     override val message: String
-        get() = throwables.joinToString("\n") { it.message ?: "" }
+        get() = exceptions.joinToString("\n") { it.message ?: "" }
 }

@@ -12,12 +12,12 @@ internal class DeleteVersionsUseCase(
         val result = input.data
             .flatMap { entry ->
                 versionRepository.deleteVersions(
-                    organization = entry.key.owner?.login ?: error("organization is missing"),
-                    packageName = entry.key.name ?: error("packageName is missing"),
-                    packageType = entry.key.packageType ?: error("packageType is missing"),
+                    organization = entry.key.owner.login,
+                    packageName = entry.key.name,
+                    packageType = entry.key.packageType,
                     versionIds = entry.value
-                        .filter { it.name?.contains(input.snapshotTag) ?: false }
-                        .mapNotNull { it.id }
+                        .filter { it.name.contains(input.snapshotTag) }
+                        .map { it.id }
                 )
             }
         val versionIds = result.flatMap {

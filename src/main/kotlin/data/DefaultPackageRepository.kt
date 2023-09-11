@@ -25,9 +25,9 @@ internal class DefaultPackageRepository(
             val jobs = data.map {
                 async {
                     packageDataSource.deletePackage(
-                        organization = it.owner?.login ?: error("organization is missing"),
-                        packageName = it.name ?: error("package name is missing"),
-                        packageType = it.packageType ?: error("package type is missing")
+                        organization = it.owner.login,
+                        packageName = it.name,
+                        packageType = it.packageType
                     )
                 }
             }

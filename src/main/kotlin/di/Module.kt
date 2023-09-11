@@ -11,14 +11,32 @@ import io.ktor.client.*
 import io.ktor.client.engine.apache5.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.serialization.json.Json
+import model.Context
 import org.koin.dsl.module
+import system.OrganizationFlow
 
 val module = module {
+
+    single {
+        Context(
+            organization = "credible-team",
+            repository = "gradle-versions",
+            packageType = "maven",
+            snapshotTag = "SNAPSHOT",
+        )
+        //    val (organization, repository) = koinApp.koin.getProperty<String>("GITHUB_REPOSITORY")?.split("/")
+//        ?: error("environment variable GITHUB_REPOSITORY is missing")
+//        Context(
+//            organization = getPropertyOrNull<String>("GITHUB_REPOSITORY")?.split("/")?.getOrNull(0),
+//            repository = getPropertyOrNull<String>("GITHUB_REPOSITORY")?.split("/")?.getOrNull(1),
+//            packageType = getProperty("PACKAGE_TYPE"),
+//            snapshotTag = getProperty("SNAPSHOT_TAG"),
+//        )
+    }
 
     single<PackageRepository> {
         DefaultPackageRepository(
@@ -73,14 +91,6 @@ val module = module {
     single<HttpClient> {
         HttpClient(Apache5) {
             expectSuccess = true
-            install(Logging) {
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        println("\n$message\n")
-                    }
-                }
-                level = LogLevel.ALL
-            }
             install(DefaultRequest) {
                 url("https://api.github.com")
                 headers.appendIfNameAbsent("Accept", "application/vnd.github+json")
@@ -105,6 +115,15 @@ val module = module {
                 exponentialDelay()
             }
         }
+    }
+
+    single {
+        OrganizationFlow(
+            loadPackagesByRepositoryUseCase = get(),
+            loadPackageVersionsUseCase = get(),
+            deletePackagesUseCase = get(),
+            deleteVersionsUseCase = get(),
+        )
     }
 
 }

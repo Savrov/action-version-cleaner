@@ -12,7 +12,7 @@ internal class LoadPackagesByRepositoryUseCase(
             packageType = input.packageType
         ).map { list ->
             list.filter { item ->
-                item.repository?.name == input.repository
+                item.repository.name == input.repository
             }
         }
     }
