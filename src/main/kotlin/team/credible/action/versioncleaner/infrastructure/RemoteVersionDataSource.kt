@@ -1,14 +1,15 @@
 package team.credible.action.versioncleaner.infrastructure
 
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.request
+import io.ktor.http.HttpMethod
 import team.credible.action.versioncleaner.data.VersionDataSource
+import team.credible.action.versioncleaner.model.NetworkException
 import team.credible.action.versioncleaner.model.Version
 
 internal class RemoteVersionDataSource(
-    private val httpClient: HttpClient
+    private val httpClient: HttpClient,
 ) : VersionDataSource {
 
     override suspend fun getVersions(
@@ -26,6 +27,8 @@ internal class RemoteVersionDataSource(
                     parameters.append("state", "active")
                 }
             }.body<List<Version>>()
+        }.onFailure {
+            Result.failure<Collection<Version>>(NetworkException(it))
         }
     }
 
@@ -33,7 +36,7 @@ internal class RemoteVersionDataSource(
         versionId: Int,
         organization: String,
         packageName: String,
-        packageType: String
+        packageType: String,
     ): Result<Int> {
         return runCatching {
             httpClient.request("/orgs/$organization/packages/$packageType/$packageName/versions/$versionId") {
@@ -44,8 +47,8 @@ internal class RemoteVersionDataSource(
                 Result.success(versionId)
             },
             onFailure = {
-                Result.failure(it)
-            }
+                Result.failure(NetworkException(it))
+            },
         )
     }
 }

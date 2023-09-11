@@ -17,7 +17,7 @@ internal class DeleteVersionsUseCase(
                     packageType = entry.key.packageType,
                     versionIds = entry.value
                         .filter { it.name.contains(input.snapshotTag) }
-                        .map { it.id }
+                        .map { it.id },
                 )
             }
         val versionIds = result.flatMap {
@@ -35,6 +35,6 @@ internal class DeleteVersionsUseCase(
 
     data class Params(
         val snapshotTag: String,
-        val data: Map<Package, Collection<Version>>
+        val data: Map<Package, Collection<Version>>,
     )
 }

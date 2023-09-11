@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.9.0"
+    id("com.diffplug.spotless") version "6.21.0"
     application
 }
 
@@ -38,5 +39,11 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = JvmTarget.JVM_11.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
+    }
+}
+
+spotless {
+    kotlin {
+        ktlint("0.50.0")
     }
 }

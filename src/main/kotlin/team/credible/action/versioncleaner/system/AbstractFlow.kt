@@ -9,18 +9,18 @@ abstract class AbstractFlow {
     suspend operator fun invoke(context: Context) = with(context) {
         val packages = loadPackages().fold(
             onSuccess = { it },
-            onFailure = { throw it }
+            onFailure = { throw it },
         )
         val packageVersionMap = loadPackageVersions(packages).fold(
             onSuccess = { it },
-            onFailure = { throw it }
+            onFailure = { throw it },
         )
         deletePackages(packageVersionMap).fold(
             onSuccess = {
                 val deletedPackages = it.joinToString(separator = ",").ifEmpty { "none" }
                 println("packages deleted: $deletedPackages")
             },
-            onFailure = { throw it }
+            onFailure = { throw it },
         )
         deleteVersions(packageVersionMap).fold(
             onSuccess = {
@@ -31,7 +31,7 @@ abstract class AbstractFlow {
                 }.ifEmpty { "none" }
                 println("versions deleted: $deletedVersions")
             },
-            onFailure = { throw it }
+            onFailure = { throw it },
         )
     }
 
@@ -46,5 +46,4 @@ abstract class AbstractFlow {
 
     context(Context)
     abstract suspend fun deleteVersions(packageVersionMap: Map<Package, Collection<Version>>): Result<Collection<Int>>
-
 }

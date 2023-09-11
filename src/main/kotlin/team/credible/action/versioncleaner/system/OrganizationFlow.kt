@@ -19,7 +19,7 @@ internal class OrganizationFlow(
         val params = LoadPackagesByRepositoryUseCase.Params(
             organization = organization,
             repository = repository,
-            packageType = packageType
+            packageType = packageType,
         )
         return loadPackagesByRepositoryUseCase(params)
     }
@@ -31,16 +31,16 @@ internal class OrganizationFlow(
                 val params = LoadPackageVersionsUseCase.Params(
                     organization = p.owner.login,
                     packageName = p.name,
-                    packageType = p.packageType
+                    packageType = p.packageType,
                 )
                 loadPackageVersionsUseCase(params).fold(
                     onSuccess = { p to it },
-                    onFailure = { throw it }
+                    onFailure = { throw it },
                 )
             }
         }.fold(
             onSuccess = { Result.success(it) },
-            onFailure = { Result.failure(it) }
+            onFailure = { Result.failure(it) },
         )
     }
 
@@ -50,7 +50,7 @@ internal class OrganizationFlow(
             it.count() == 1 && it.all { it.name.contains(snapshotTag) }
         }
         val params = DeletePackagesUseCase.Params(
-            packages = dataToDelete.keys
+            packages = dataToDelete.keys,
         )
         return deletePackagesUseCase(params)
     }
@@ -62,7 +62,7 @@ internal class OrganizationFlow(
         }
         val params = DeleteVersionsUseCase.Params(
             snapshotTag = snapshotTag,
-            data = dataToDelete
+            data = dataToDelete,
         )
         return deleteVersionsUseCase(params)
     }

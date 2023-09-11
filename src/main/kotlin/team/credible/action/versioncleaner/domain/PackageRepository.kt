@@ -10,7 +10,6 @@ interface PackageRepository {
     ): Result<Collection<Package>>
 
     suspend fun deletePackages(
-        data: Collection<Package>
+        data: Collection<Package>,
     ): Collection<Result<String>>
-
 }

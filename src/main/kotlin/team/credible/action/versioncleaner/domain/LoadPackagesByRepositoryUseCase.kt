@@ -9,7 +9,7 @@ internal class LoadPackagesByRepositoryUseCase(
     override suspend fun invoke(input: Params): Result<Collection<Package>> {
         return packageRepository.loadPackages(
             organization = input.organization,
-            packageType = input.packageType
+            packageType = input.packageType,
         ).map { list ->
             list.filter { item ->
                 item.repository.name == input.repository

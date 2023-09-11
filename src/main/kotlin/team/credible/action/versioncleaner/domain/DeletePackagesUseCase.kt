@@ -23,6 +23,6 @@ internal class DeletePackagesUseCase(
     }
 
     data class Params(
-        val packages: Collection<Package>
+        val packages: Collection<Package>,
     )
 }

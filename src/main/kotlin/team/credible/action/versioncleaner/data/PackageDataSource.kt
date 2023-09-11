@@ -14,5 +14,4 @@ interface PackageDataSource {
         packageName: String,
         packageType: String,
     ): Result<String>
-
 }

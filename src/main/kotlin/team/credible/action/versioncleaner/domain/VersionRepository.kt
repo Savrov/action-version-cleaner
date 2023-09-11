@@ -16,5 +16,4 @@ interface VersionRepository {
         packageType: String,
         versionIds: Collection<Int>,
     ): Collection<Result<Int>>
-
 }

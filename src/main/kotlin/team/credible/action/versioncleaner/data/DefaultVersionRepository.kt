@@ -11,11 +11,10 @@ internal class DefaultVersionRepository(
     private val versionDataSource: VersionDataSource,
     private val coroutineContext: CoroutineContext,
 ) : VersionRepository {
-
     override suspend fun loadVersions(
         organization: String,
         packageName: String,
-        packageType: String
+        packageType: String,
     ): Result<Collection<Version>> {
         return withContext(coroutineContext) {
             val versions = mutableListOf<Version>()
@@ -27,7 +26,7 @@ internal class DefaultVersionRepository(
                     organization = organization,
                     packageName = packageName,
                     packageType = packageType,
-                    page = page
+                    page = page,
                 ).fold(
                     onSuccess = {
                         versions.addAll(it)
@@ -35,7 +34,7 @@ internal class DefaultVersionRepository(
                     },
                     onFailure = {
                         return@withContext Result.failure<Collection<Version>>(it)
-                    }
+                    },
                 )
             } while (isNextPageAvailable)
             Result.success(versions)

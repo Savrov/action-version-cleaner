@@ -13,7 +13,7 @@ internal class DefaultPackageRepository(
 ) : PackageRepository {
     override suspend fun loadPackages(
         organization: String,
-        packageType: String
+        packageType: String,
     ): Result<Collection<Package>> {
         return withContext(coroutineContext) {
             packageDataSource.loadPackages(organization, packageType)
@@ -21,7 +21,7 @@ internal class DefaultPackageRepository(
     }
 
     override suspend fun deletePackages(
-        data: Collection<Package>
+        data: Collection<Package>,
     ): Collection<Result<String>> {
         return withContext(coroutineContext) {
             val jobs = data.map {
@@ -29,7 +29,7 @@ internal class DefaultPackageRepository(
                     packageDataSource.deletePackage(
                         organization = it.owner.login,
                         packageName = it.name,
-                        packageType = it.packageType
+                        packageType = it.packageType,
                     )
                 }
             }

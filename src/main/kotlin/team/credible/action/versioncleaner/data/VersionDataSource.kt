@@ -17,5 +17,4 @@ interface VersionDataSource {
         packageName: String,
         packageType: String,
     ): Result<Int>
-
 }
