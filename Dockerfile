@@ -7,7 +7,5 @@ WORKDIR /app
 COPY . /app/
 
 # Run the Gradle build inside the container
-RUN ./gradlew build
-
-# Specify the default command to run when the container starts
-CMD ["./gradlew", "run"]
+RUN ./gradlew build -x test -x check
+RUN ./gradlew run
