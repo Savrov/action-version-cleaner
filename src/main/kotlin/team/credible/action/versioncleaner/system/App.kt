@@ -22,13 +22,13 @@ fun main() = runBlocking {
                     IsRepositoryOwnedByUserUseCase.Params(
                         owner = context.owner,
                         repository = context.repository,
-                    )
+                    ),
                 ).fold(
                     onSuccess = { it },
                     onFailure = {
                         error("Failed to check repository owner")
                         throw it
-                    }
+                    },
                 )
             logger.info("repository owner: ${if (isRepositoryOwnedByUser) "user" else "organization"}")
             if (isRepositoryOwnedByUser) {
@@ -40,5 +40,4 @@ fun main() = runBlocking {
             }
         }
     }
-
 }

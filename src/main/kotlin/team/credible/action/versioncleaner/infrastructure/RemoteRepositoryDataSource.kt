@@ -20,5 +20,4 @@ class RemoteRepositoryDataSource(
             Result.failure<Repository>(NetworkException(it))
         }
     }
-
 }

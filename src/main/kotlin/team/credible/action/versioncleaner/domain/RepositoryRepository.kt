@@ -8,5 +8,4 @@ interface RepositoryRepository {
         owner: String,
         repository: String,
     ): Result<Repository>
-
 }

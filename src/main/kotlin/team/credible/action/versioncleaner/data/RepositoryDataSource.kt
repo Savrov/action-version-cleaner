@@ -8,5 +8,4 @@ interface RepositoryDataSource {
         owner: String,
         repository: String,
     ): Result<Repository>
-
 }

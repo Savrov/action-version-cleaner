@@ -14,5 +14,4 @@ internal class DefaultRepositoryRepository(
             repositoryDataSource.loadRepository(owner, repository)
         }
     }
-
 }
