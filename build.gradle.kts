@@ -17,6 +17,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
     testImplementation(kotlin("test"))
 
     val versionKtor = "2.3.4"
