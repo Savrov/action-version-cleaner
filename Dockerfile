@@ -18,9 +18,6 @@ RUN groupadd -r mygroup && \
 # Change the ownership of the JAR file to the newly created user and group
 RUN chown myuser:mygroup /app/action-version-cleaner-SNAPSHOT.jar
 
-RUN echo "/app structure:"
-RUN ls -l
-
 USER myuser
 
-CMD ["java", "-jar", "action-version-cleaner-SNAPSHOT.jar"]
+CMD ["java", "-jar", "/app/action-version-cleaner-SNAPSHOT.jar"]
