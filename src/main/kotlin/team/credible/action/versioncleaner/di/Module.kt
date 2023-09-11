@@ -36,9 +36,9 @@ val module = module {
         val (owner, repository) = getProperty<String>("GITHUB_REPOSITORY").split("/")
         Context(
             owner = "credible-team", // owner,
-            repository = "gradle-versions", //repository,
-            packageType = "maven",// getProperty("PACKAGE_TYPE"),
-            versionTag = "SNAPSHOT", //getProperty("VERSION_TAG"),
+            repository = "gradle-versions", // repository,
+            packageType = "maven", // getProperty("PACKAGE_TYPE"),
+            versionTag = "SNAPSHOT", // getProperty("VERSION_TAG"),
         )
         //    val (organization, repository) = koinApp.koin.getProperty<String>("GITHUB_REPOSITORY")?.split("/")
 //        ?: error("environment variable GITHUB_REPOSITORY is missing")
