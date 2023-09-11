@@ -5,7 +5,7 @@ FROM openjdk:11
 WORKDIR /app
 
 # Copy the Gradle project files (build.gradle, settings.gradle) to the container
-COPY build.gradle settings.gradle /app/
+COPY build.gradle.kts settings.gradle.kts /app/
 
 # Copy the source code (src folder) to the container
 COPY src /app/src
