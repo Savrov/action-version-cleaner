@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.config.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -40,7 +39,6 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        jvmTarget = JvmTarget.JVM_20.toString()
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
     }
 }
