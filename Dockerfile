@@ -21,4 +21,4 @@ RUN chown myuser:mygroup /bin/runner/run.jar
 
 USER myuser
 
-CMD ["java","-jar","run.jar"]
+RUN java -jar /bin/runner/run.jar
