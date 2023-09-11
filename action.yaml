@@ -14,5 +14,18 @@ inputs:
     description: "The GitHub token to use for deleting packages. See required scopes in README.md"
     required: true
 runs:
-  using: "node12"
-  main: "index.js"
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Java
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11' # Adjust the Java version as needed
+
+    - name: Gradle Build and Run
+      shell: bash
+      run: |
+        ./gradlew build
+        ./gradlew run
