@@ -9,7 +9,7 @@ COPY build.gradle.kts settings.gradle.kts /app/
 COPY src /app/src/
 
 # Resolve dependencies without running tests
-RUN gradle resolveDependencies --no-daemon
+RUN gradle dependencies --no-daemon
 
 # Copy the rest of the application files
 COPY . /app/
