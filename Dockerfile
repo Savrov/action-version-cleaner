@@ -20,8 +20,5 @@ RUN gradle build -x test --no-daemon
 # Create the final runtime image
 FROM openjdk:11-jre-slim
 
-# Set the working directory in the container
-WORKDIR /app
-
 # Run the application
 CMD ["java", "-jar", "/app/build/libs/action-version-cleaner-SNAPSHOT.jar"]
