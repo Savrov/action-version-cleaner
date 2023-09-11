@@ -1,4 +1,4 @@
-name: Kotlin Action
+name: Publish a tagged version
 
 on:
   create:
@@ -11,9 +11,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Gradle Build Action
+      - name: Gradle Publish Action
         uses: gradle/gradle-build-action@v2.8.0
-
-      - name: Publish with Gradle
-        run: |
-          ./gradlew publish
+        with:
+          arguments: publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
