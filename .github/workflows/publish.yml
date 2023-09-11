@@ -11,9 +11,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Gradle Publish Action
-        uses: gradle/gradle-build-action@v2.8.0
-        with:
-          arguments: publish
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Gradle Publish Action
+#        uses: gradle/gradle-build-action@v2.8.0
+#        with:
+#          arguments: publish
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
