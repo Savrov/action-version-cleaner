@@ -18,9 +18,11 @@ internal class DeleteVersionsUseCase(
                             user = entry.key.owner.login,
                             packageName = entry.key.name,
                             packageType = entry.key.packageType,
-                            versionIds = entry.value
-                                .filter { it.name.contains(input.versionTag) }
-                                .map { it.id },
+                            versionIds = filterVersionIds(
+                                versions = entry.value,
+                                tag = input.versionTag,
+                                isStrict = input.isVersionTagStrict
+                            ),
                         )
                     }
 
@@ -31,9 +33,11 @@ internal class DeleteVersionsUseCase(
                             organization = entry.key.owner.login,
                             packageName = entry.key.name,
                             packageType = entry.key.packageType,
-                            versionIds = entry.value
-                                .filter { it.name.contains(input.versionTag) }
-                                .map { it.id },
+                            versionIds = filterVersionIds(
+                                versions = entry.value,
+                                tag = input.versionTag,
+                                isStrict = input.isVersionTagStrict
+                            ),
                         )
                     }
         }
@@ -50,9 +54,22 @@ internal class DeleteVersionsUseCase(
         }
     }
 
+    private fun filterVersionIds(versions: Collection<Version>, tag: String, isStrict: Boolean): Collection<Int> {
+        return versions.filter {
+            if (isStrict) {
+                it.name == tag
+            } else {
+                it.name.contains(tag)
+            }
+        }.map {
+            it.id
+        }
+    }
+
     data class Params(
         val ownerType: OwnerType,
         val versionTag: String,
+        val isVersionTagStrict: Boolean,
         val data: Map<Package, Collection<Version>>,
     )
 }

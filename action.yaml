@@ -10,7 +10,12 @@ inputs:
     required: true
   version-tag:
     description: "The tag to use to identify version packages"
-    required: true
+    required: false
+    default: "SNAPSHOT"
+  is-version-tag-strict:
+    description: "Whether to use strict matching for version tag"
+    required: false
+    default: "true"
   github-token:
     description: "The GitHub token to use for deleting packages. See required scopes in README.md"
     required: true
@@ -30,4 +35,5 @@ runs:
         GITHUB_REPOSITORY: ${{ inputs.github-repository }}
         PACKAGE_TYPE: ${{ inputs.package-type }}
         VERSION_TAG: ${{ inputs.version-tag }}
+        IS_VERSION_TAG_STRICT: ${{ inputs.is-version-tag-strict }}
         GITHUB_TOKEN: ${{ inputs.github-token }}

@@ -5,4 +5,5 @@ data class Context(
     val repository: String,
     val packageType: String,
     val versionTag: String,
+    val isVersionTagStrict: String,
 )
