@@ -1,0 +1,25 @@
+name: Unit Test
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - feature/**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Run check
+        shell: bash
+        run: ./gradlew check
+
+      - name: Run test
+        shell: bash
+        run: ./gradlew test

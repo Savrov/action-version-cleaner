@@ -21,7 +21,7 @@ internal class DeleteVersionsUseCase(
                             versionIds = filterVersionIds(
                                 versions = entry.value,
                                 tag = input.versionTag,
-                                isStrict = input.isVersionTagStrict
+                                isStrict = input.isVersionTagStrict,
                             ),
                         )
                     }
@@ -36,7 +36,7 @@ internal class DeleteVersionsUseCase(
                             versionIds = filterVersionIds(
                                 versions = entry.value,
                                 tag = input.versionTag,
-                                isStrict = input.isVersionTagStrict
+                                isStrict = input.isVersionTagStrict,
                             ),
                         )
                     }
