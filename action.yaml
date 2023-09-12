@@ -24,7 +24,12 @@ runs:
       uses: gradle/gradle-build-action@v2
     - name: Run build with Gradle Wrapper
       shell: bash
-      run: ./gradlew build
+      run: ./gradlew run
+      env:
+        GITHUB_REPOSITORY: ${{ inputs.github-repository }}
+        PACKAGE_TYPE: ${{ inputs.package-type }}
+        VERSION_TAG: ${{ inputs.version-tag }}
+        GITHUB_TOKEN: ${{ inputs.github-token }}
 
 #  using: 'docker'
 #  image: 'Dockerfile'
