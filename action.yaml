@@ -3,7 +3,8 @@ description: "A GitHub Action for deleting packages with specific version from a
 inputs:
   github-repository:
     description: "The GitHub repository where snapshots will be deleted"
-    required: true
+    required: false
+    default: ${{ github.repository }}
   package-type:
     description: "The package type to delete (e.g., maven)"
     required: true
@@ -17,7 +18,7 @@ runs:
   using: composite
   steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: credible-team/action-version-cleaner
     - name: Setup Gradle
