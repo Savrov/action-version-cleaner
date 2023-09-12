@@ -10,7 +10,7 @@ inputs:
   version-tag:
     description: "The tag to use to identify version packages"
     required: true
-  gitnub-token:
+  github-token:
     description: "The GitHub token to use for deleting packages. See required scopes in README.md"
     required: true
 runs:
