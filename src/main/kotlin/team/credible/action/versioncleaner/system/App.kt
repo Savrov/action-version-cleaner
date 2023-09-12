@@ -31,9 +31,9 @@ suspend fun main() {
                 val packages = loadPackages(ownerType, context, get())
                 val packageVersionMap = loadVersions(packages, ownerType, get())
                 val deletedPackages = deletePackages(packageVersionMap, context.versionTag, ownerType, get())
-                info("packages deleted: ${deletedPackages.joinToString(separator = ",").ifEmpty { "none" }}")
+                info("packages deleted: ${deletedPackages.joinToString(separator = ", ").ifEmpty { "none" }}")
                 val deletedVersions = deleteVersions(packageVersionMap, context.versionTag, ownerType, get())
-                info("versions deleted: ${deletedVersions.joinToString(separator = ",").ifEmpty { "none" }}")
+                info("versions deleted: ${deletedVersions.joinToString(separator = ", ").ifEmpty { "none" }}")
             }.fold(
                 onSuccess = { exitProcess(0) },
                 onFailure = {
