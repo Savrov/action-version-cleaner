@@ -14,10 +14,20 @@ inputs:
     description: "The GitHub token to use for deleting packages. See required scopes in README.md"
     required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.github-repository }}
-    - ${{ inputs.package-type }}
-    - ${{ inputs.version-tag }}
-    - ${{ inputs.github-token }}
+  using: composite
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+    - name: Run build with Gradle Wrapper
+      shell: bash
+      run: ./gradlew build
+
+#  using: 'docker'
+#  image: 'Dockerfile'
+#  args:
+#    - ${{ inputs.github-repository }}
+#    - ${{ inputs.package-type }}
+#    - ${{ inputs.version-tag }}
+#    - ${{ inputs.github-token }}
