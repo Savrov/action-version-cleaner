@@ -32,7 +32,8 @@ suspend fun main() {
                 val packageVersionMap = loadVersions(packages, ownerType, get())
                 val deletedPackages = deletePackages(packageVersionMap, context.versionTag, ownerType, get())
                 info("packages deleted: ${deletedPackages.joinToString(separator = ", ").ifEmpty { "none" }}")
-                val deletedVersions = deleteVersions(packageVersionMap, context.versionTag, ownerType, get())
+                val deletedVersions =
+                    deleteVersions(packageVersionMap, context.versionTag, context.isVersionTagStrict, ownerType, get())
                 info("versions deleted: ${deletedVersions.joinToString(separator = ", ").ifEmpty { "none" }}")
             }.fold(
                 onSuccess = { exitProcess(0) },
@@ -139,6 +140,7 @@ context (Logger)
 private suspend fun deleteVersions(
     packageVersionMap: Map<Package, Collection<Version>>,
     versionTag: String,
+    isVersionStrict: Boolean,
     ownerType: OwnerType,
     deleteVersionsUseCase: DeleteVersionsUseCase,
 ): Collection<String> {
@@ -148,6 +150,7 @@ private suspend fun deleteVersions(
     val params = DeleteVersionsUseCase.Params(
         ownerType = ownerType,
         versionTag = versionTag,
+        isVersionTagStrict = isVersionStrict,
         data = dataToDelete,
     )
     return deleteVersionsUseCase(params).fold(
