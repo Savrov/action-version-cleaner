@@ -1,6 +1,6 @@
 # Version Cleaner
 
-![unit test](https://github.com/github/docs/actions/workflows/unit-test.yml/badge.svg)
+![unit test](https://github.com/credible-team/action-version-cleaner/actions/workflows/unit-test.yml/badge.svg)
 
 Github Action to clean version tags from a repository. It works both with USER and ORGANIZATION repositories.
 
