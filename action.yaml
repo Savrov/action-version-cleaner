@@ -30,11 +30,3 @@ runs:
         PACKAGE_TYPE: ${{ inputs.package-type }}
         VERSION_TAG: ${{ inputs.version-tag }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
-
-#  using: 'docker'
-#  image: 'Dockerfile'
-#  args:
-#    - ${{ inputs.github-repository }}
-#    - ${{ inputs.package-type }}
-#    - ${{ inputs.version-tag }}
-#    - ${{ inputs.github-token }}

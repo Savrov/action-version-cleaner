@@ -1,4 +1,3 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -6,7 +5,6 @@ plugins {
     kotlin("plugin.serialization") version "1.9.0"
     id("com.diffplug.spotless") version "6.21.0"
     id("org.gradle.maven-publish")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
     application
 }
 
@@ -49,11 +47,5 @@ tasks.withType<KotlinCompile> {
 spotless {
     kotlin {
         ktlint("0.50.0")
-    }
-}
-
-tasks.withType<ShadowJar> {
-    manifest {
-        attributes["Main-Class"] = application.mainClass.get()
     }
 }
