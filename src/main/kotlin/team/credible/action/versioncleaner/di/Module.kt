@@ -33,21 +33,13 @@ import team.credible.action.versioncleaner.system.OrganizationFlow
 val module = module {
 
     single {
-//        val (owner, repository) = getProperty<String>("GITHUB_REPOSITORY").split("/")
+        val (owner, repository) = getProperty<String>("GITHUB_REPOSITORY").split("/")
         Context(
-            owner = "credible-team", // owner,
-            repository = "gradle-versions", // repository,
-            packageType = "maven", // getProperty("PACKAGE_TYPE"),
-            versionTag = "SNAPSHOT", // getProperty("VERSION_TAG"),
+            owner = owner,
+            repository = repository,
+            packageType = getProperty("PACKAGE_TYPE"),
+            versionTag = getProperty("VERSION_TAG"),
         )
-        //    val (organization, repository) = koinApp.koin.getProperty<String>("GITHUB_REPOSITORY")?.split("/")
-//        ?: error("environment variable GITHUB_REPOSITORY is missing")
-//        Context(
-//            organization = getPropertyOrNull<String>("GITHUB_REPOSITORY")?.split("/")?.getOrNull(0),
-//            repository = getPropertyOrNull<String>("GITHUB_REPOSITORY")?.split("/")?.getOrNull(1),
-//            packageType = getProperty("PACKAGE_TYPE"),
-//            snapshotTag = getProperty("SNAPSHOT_TAG"),
-//        )
     }
 
     single<PackageRepository> {
@@ -125,7 +117,7 @@ val module = module {
             install(DefaultRequest) {
                 url("https://api.github.com")
                 headers.appendIfNameAbsent("Accept", "application/vnd.github+json")
-                headers.appendIfNameAbsent("Authorization", "Bearer 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")
+                headers.appendIfNameAbsent("Authorization", "Bearer ${getProperty<String>("GITHUB_TOKEN")}")
                 headers.appendIfNameAbsent("X-GitHub-Api-Version", "2022-11-28")
             }
             install(ContentNegotiation) {
