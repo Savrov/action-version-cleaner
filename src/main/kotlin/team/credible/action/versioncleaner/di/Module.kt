@@ -38,7 +38,7 @@ val module = module {
             repository = repository,
             packageType = getProperty("PACKAGE_TYPE"),
             versionTag = getProperty("VERSION_TAG"),
-            isVersionTagStrict = getProperty("IS_VERSION_TAG_STRICT"),
+            isVersionTagStrict = getProperty<String>("IS_VERSION_TAG_STRICT") == "true",
         )
     }
 
