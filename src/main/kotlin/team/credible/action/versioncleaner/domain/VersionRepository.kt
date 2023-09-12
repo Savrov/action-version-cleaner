@@ -16,4 +16,17 @@ interface VersionRepository {
         packageType: String,
         versionIds: Collection<Int>,
     ): Collection<Result<Int>>
+
+    suspend fun loadUserVersions(
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<Collection<Version>>
+
+    suspend fun deleteUserVersions(
+        user: String,
+        packageName: String,
+        packageType: String,
+        versionIds: Collection<Int>,
+    ): Collection<Result<Int>>
 }

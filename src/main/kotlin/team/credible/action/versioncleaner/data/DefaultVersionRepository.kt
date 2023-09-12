@@ -61,4 +61,39 @@ internal class DefaultVersionRepository(
             jobs.awaitAll()
         }
     }
+
+    override suspend fun loadUserVersions(
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<Collection<Version>> {
+        return withContext(coroutineContext) {
+            versionDataSource.getUserVersions(
+                user = user,
+                packageName = packageName,
+                packageType = packageType,
+            )
+        }
+    }
+
+    override suspend fun deleteUserVersions(
+        user: String,
+        packageName: String,
+        packageType: String,
+        versionIds: Collection<Int>,
+    ): Collection<Result<Int>> {
+        return withContext(coroutineContext) {
+            val jobs = versionIds.map {
+                async {
+                    versionDataSource.deleteUserVersion(
+                        versionId = it,
+                        user = user,
+                        packageName = packageName,
+                        packageType = packageType,
+                    )
+                }
+            }
+            jobs.awaitAll()
+        }
+    }
 }

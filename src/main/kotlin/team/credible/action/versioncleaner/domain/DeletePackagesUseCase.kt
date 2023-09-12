@@ -1,14 +1,18 @@
 package team.credible.action.versioncleaner.domain
 
 import team.credible.action.versioncleaner.model.ExceptionsBundle
+import team.credible.action.versioncleaner.model.OwnerType
 import team.credible.action.versioncleaner.model.Package
 
-internal class DeleteOrganizationPackagesUseCase(
+internal class DeletePackagesUseCase(
     private val packageRepository: PackageRepository,
-) : SuspendUseCase<DeleteOrganizationPackagesUseCase.Params, Result<Collection<String>>> {
+) : SuspendUseCase<DeletePackagesUseCase.Params, Collection<String>> {
 
     override suspend fun invoke(input: Params): Result<Collection<String>> {
-        val result = packageRepository.deleteOrganizationPackages(input.packages)
+        val result = when (input.ownerType) {
+            OwnerType.User -> packageRepository.deleteUserPackages(input.packages)
+            OwnerType.Organisation -> packageRepository.deleteOrganizationPackages(input.packages)
+        }
         val names = result.flatMap {
             it.getOrNull()?.let { listOf(it) } ?: listOf()
         }
@@ -23,6 +27,7 @@ internal class DeleteOrganizationPackagesUseCase(
     }
 
     data class Params(
+        val ownerType: OwnerType,
         val packages: Collection<Package>,
     )
 }

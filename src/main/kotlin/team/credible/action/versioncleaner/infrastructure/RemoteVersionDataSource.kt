@@ -38,17 +38,47 @@ internal class RemoteVersionDataSource(
         packageName: String,
         packageType: String,
     ): Result<Int> {
+        return deleteVersion(
+            url = "/orgs/$organization/packages/$packageType/$packageName/versions/$versionId",
+            versionId = versionId,
+        )
+    }
+
+    override suspend fun getUserVersions(
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<Collection<Version>> {
         return runCatching {
-            httpClient.request("/orgs/$organization/packages/$packageType/$packageName/versions/$versionId") {
+            httpClient.request("/users/$user/packages/$packageType/$packageName/versions") {
+                method = HttpMethod.Get
+            }.body<List<Version>>()
+        }.onFailure { Result.failure<Collection<Version>>(NetworkException(it)) }
+    }
+
+    override suspend fun deleteUserVersion(
+        versionId: Int,
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<Int> {
+        return deleteVersion(
+            url = "/users/$user/packages/$packageType/$packageName/versions/$versionId",
+            versionId = versionId,
+        )
+    }
+
+    private suspend fun deleteVersion(
+        url: String,
+        versionId: Int,
+    ): Result<Int> {
+        return runCatching {
+            httpClient.request(url) {
                 method = HttpMethod.Delete
             }
         }.fold(
-            onSuccess = {
-                Result.success(versionId)
-            },
-            onFailure = {
-                Result.failure(NetworkException(it))
-            },
+            onSuccess = { Result.success(versionId) },
+            onFailure = { Result.failure(NetworkException(it)) },
         )
     }
 }

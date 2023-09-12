@@ -16,8 +16,35 @@ internal class RemotePackageDataSource(
         organization: String,
         packageType: String,
     ): Result<Collection<Package>> {
+        return loadPackages("/orgs/$organization/packages", packageType)
+    }
+
+    override suspend fun deleteOrganizationPackage(
+        organization: String,
+        packageName: String,
+        packageType: String,
+    ): Result<String> {
+        return deletePackage("/orgs/$organization/packages/$packageType/$packageName", packageName)
+    }
+
+    override suspend fun loadUserPackages(
+        user: String,
+        packageType: String,
+    ): Result<Collection<Package>> {
+        return loadPackages("/users/$user/packages", packageType)
+    }
+
+    override suspend fun deleteUserPackage(
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<String> {
+        return deletePackage("/users/$user/packages/$packageType/$packageName", packageName)
+    }
+
+    private suspend fun loadPackages(url: String, packageType: String): Result<Collection<Package>> {
         return runCatching {
-            httpClient.request("/orgs/$organization/packages") {
+            httpClient.request(url) {
                 method = HttpMethod.Get
                 url {
                     parameters.append("package_type", packageType.lowercase())
@@ -28,13 +55,9 @@ internal class RemotePackageDataSource(
         }
     }
 
-    override suspend fun deleteOrganizationPackage(
-        organization: String,
-        packageName: String,
-        packageType: String,
-    ): Result<String> {
+    private suspend fun deletePackage(url: String, packageName: String): Result<String> {
         return runCatching {
-            httpClient.request("/orgs/$organization/packages/$packageType/$packageName") {
+            httpClient.request(url) {
                 method = HttpMethod.Delete
             }
         }.fold(

@@ -12,4 +12,13 @@ interface PackageRepository {
     suspend fun deleteOrganizationPackages(
         data: Collection<Package>,
     ): Collection<Result<String>>
+
+    suspend fun loadUserPackages(
+        user: String,
+        packageType: String,
+    ): Result<Collection<Package>>
+
+    suspend fun deleteUserPackages(
+        data: Collection<Package>,
+    ): Collection<Result<String>>
 }

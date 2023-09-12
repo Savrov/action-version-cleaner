@@ -17,4 +17,17 @@ interface VersionDataSource {
         packageName: String,
         packageType: String,
     ): Result<Int>
+
+    suspend fun getUserVersions(
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<Collection<Version>>
+
+    suspend fun deleteUserVersion(
+        versionId: Int,
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<Int>
 }

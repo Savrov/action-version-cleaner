@@ -14,4 +14,15 @@ interface PackageDataSource {
         packageName: String,
         packageType: String,
     ): Result<String>
+
+    suspend fun loadUserPackages(
+        user: String,
+        packageType: String,
+    ): Result<Collection<Package>>
+
+    suspend fun deleteUserPackage(
+        user: String,
+        packageName: String,
+        packageType: String,
+    ): Result<String>
 }

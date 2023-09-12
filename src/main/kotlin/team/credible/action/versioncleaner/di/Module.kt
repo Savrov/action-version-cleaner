@@ -16,11 +16,11 @@ import team.credible.action.versioncleaner.data.DefaultVersionRepository
 import team.credible.action.versioncleaner.data.PackageDataSource
 import team.credible.action.versioncleaner.data.RepositoryDataSource
 import team.credible.action.versioncleaner.data.VersionDataSource
-import team.credible.action.versioncleaner.domain.DeleteOrganizationPackagesUseCase
-import team.credible.action.versioncleaner.domain.DeleteOrganizationVersionsUseCase
-import team.credible.action.versioncleaner.domain.IsRepositoryOwnedByUserUseCase
-import team.credible.action.versioncleaner.domain.LoadOrganizationPackageVersionsUseCase
-import team.credible.action.versioncleaner.domain.LoadOrganizationPackagesByRepositoryUseCase
+import team.credible.action.versioncleaner.domain.DeletePackagesUseCase
+import team.credible.action.versioncleaner.domain.DeleteVersionsUseCase
+import team.credible.action.versioncleaner.domain.LoadPackagesUseCase
+import team.credible.action.versioncleaner.domain.LoadRepositoryOwnerTypeUseCase
+import team.credible.action.versioncleaner.domain.LoadVersionsUseCase
 import team.credible.action.versioncleaner.domain.PackageRepository
 import team.credible.action.versioncleaner.domain.RepositoryRepository
 import team.credible.action.versioncleaner.domain.VersionRepository
@@ -28,7 +28,6 @@ import team.credible.action.versioncleaner.infrastructure.RemotePackageDataSourc
 import team.credible.action.versioncleaner.infrastructure.RemoteRepositoryDataSource
 import team.credible.action.versioncleaner.infrastructure.RemoteVersionDataSource
 import team.credible.action.versioncleaner.model.Context
-import team.credible.action.versioncleaner.system.OrganizationFlow
 
 val module = module {
 
@@ -64,31 +63,31 @@ val module = module {
     }
 
     factory {
-        DeleteOrganizationPackagesUseCase(
+        DeletePackagesUseCase(
             packageRepository = get(),
         )
     }
 
     factory {
-        IsRepositoryOwnedByUserUseCase(
+        LoadRepositoryOwnerTypeUseCase(
             repositoryRepository = get(),
         )
     }
 
     factory {
-        DeleteOrganizationVersionsUseCase(
+        DeleteVersionsUseCase(
             versionRepository = get(),
         )
     }
 
     factory {
-        LoadOrganizationPackagesByRepositoryUseCase(
+        LoadPackagesUseCase(
             packageRepository = get(),
         )
     }
 
     factory {
-        LoadOrganizationPackageVersionsUseCase(
+        LoadVersionsUseCase(
             versionRepository = get(),
         )
     }
@@ -138,14 +137,5 @@ val module = module {
                 exponentialDelay()
             }
         }
-    }
-
-    single {
-        OrganizationFlow(
-            loadOrganizationPackagesByRepositoryUseCase = get(),
-            loadOrganizationPackageVersionsUseCase = get(),
-            deleteOrganizationPackagesUseCase = get(),
-            deleteOrganizationVersionsUseCase = get(),
-        )
     }
 }
