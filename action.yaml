@@ -37,3 +37,6 @@ runs:
         VERSION_TAG: ${{ inputs.version-tag }}
         IS_VERSION_TAG_STRICT: ${{ inputs.is-version-tag-strict }}
         GITHUB_TOKEN: ${{ inputs.github-token }}
+branding:
+  icon: 'trash'
+  color: 'green'
