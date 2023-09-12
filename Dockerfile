@@ -21,10 +21,10 @@ RUN chown myuser:mygroup /bin/runner/run.jar
 
 USER myuser
 
-RUN echo 1=${GITHUB_REPOSITORY}
-RUN echo 2=${PACKAGE_TYPE}
-RUN echo 3=${VERSION_TAG}
-RUN echo 4=${GITHUB_TOKEN}
+RUN echo 1=$0
+RUN echo 2=$1
+RUN echo 3=$2
+RUN echo 4=$3
 
 ENV GITHUB_REPOSITORY=${GITHUB_REPOSITORY}
 ENV PACKAGE_TYPE=${PACKAGE_TYPE}

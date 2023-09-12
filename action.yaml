@@ -1,18 +1,23 @@
 name: "Version Cleaner Action"
 description: "A GitHub Action for deleting packages with specific version from a GitHub repository"
 inputs:
-  GITHUB_REPOSITORY:
+  github-repository:
     description: "The GitHub repository where snapshots will be deleted"
     required: true
-  PACKAGE_TYPE:
+  package-type:
     description: "The package type to delete (e.g., maven)"
     required: true
-  VERSION_TAG:
+  version-tag:
     description: "The tag to use to identify version packages"
     required: true
-  GITHUB_TOKEN:
+  gitnub-token:
     description: "The GitHub token to use for deleting packages. See required scopes in README.md"
     required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.github-repository }}
+    - ${{ inputs.package-type }}
+    - ${{ inputs.version-tag }}
+    - ${{ inputs.github-token }}
