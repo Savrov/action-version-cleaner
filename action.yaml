@@ -18,11 +18,13 @@ runs:
   steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Setup Gradle
-      uses: gradle/gradle-build-action@v2
-    - name: Run build with Gradle Wrapper
-      shell: bash
-      run: ./gradlew build
+      with:
+        path: .
+#    - name: Setup Gradle
+#      uses: gradle/gradle-build-action@v2
+#    - name: Run build with Gradle Wrapper
+#      shell: bash
+#      run: ./gradlew build
 
 #  using: 'docker'
 #  image: 'Dockerfile'
