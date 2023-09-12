@@ -20,11 +20,11 @@ runs:
       uses: actions/checkout@v2
       with:
         repository: credible-team/action-version-cleaner
-#    - name: Setup Gradle
-#      uses: gradle/gradle-build-action@v2
-#    - name: Run build with Gradle Wrapper
-#      shell: bash
-#      run: ./gradlew build
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+    - name: Run build with Gradle Wrapper
+      shell: bash
+      run: ./gradlew build
 
 #  using: 'docker'
 #  image: 'Dockerfile'
