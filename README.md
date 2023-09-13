@@ -10,7 +10,7 @@ Include the following step in your workflow to delete all SNAPSHOT packages from
 
 ```yaml
 - name: Delete SNAPSHOT packages
-  uses: credible-team/action-version-cleaner@main
+  uses: credible-team/action-version-cleaner@v1
   with:
     github-repository: ${{ github.repository }}
     package-type: maven
