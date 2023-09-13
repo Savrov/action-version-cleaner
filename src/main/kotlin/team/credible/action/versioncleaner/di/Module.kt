@@ -18,6 +18,8 @@ import team.credible.action.versioncleaner.data.RepositoryDataSource
 import team.credible.action.versioncleaner.data.VersionDataSource
 import team.credible.action.versioncleaner.domain.DeletePackagesUseCase
 import team.credible.action.versioncleaner.domain.DeleteVersionsUseCase
+import team.credible.action.versioncleaner.domain.FilterPackagesUseCase
+import team.credible.action.versioncleaner.domain.FilterVersionsUseCase
 import team.credible.action.versioncleaner.domain.LoadPackagesUseCase
 import team.credible.action.versioncleaner.domain.LoadRepositoryOwnerTypeUseCase
 import team.credible.action.versioncleaner.domain.LoadVersionsUseCase
@@ -79,6 +81,14 @@ val module = module {
         DeleteVersionsUseCase(
             versionRepository = get(),
         )
+    }
+
+    factory {
+        FilterPackagesUseCase()
+    }
+
+    factory {
+        FilterVersionsUseCase()
     }
 
     factory {
