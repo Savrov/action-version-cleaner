@@ -55,7 +55,7 @@ class LoadVersionsUseCaseTest : BehaviorSpec({
                 versionRepository.loadOrganisationVersions(
                     any(),
                     any(),
-                    any()
+                    any(),
                 )
             } returns Result.failure(exception)
             Then("returns failure") {
