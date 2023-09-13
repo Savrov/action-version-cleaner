@@ -14,7 +14,7 @@ internal class LoadRepositoryOwnerTypeUseCase(
             ).map { repository ->
                 when (repository.owner.type.lowercase()) {
                     "user" -> OwnerType.User
-                    "organisation" -> OwnerType.Organisation
+                    "organisation", "organization" -> OwnerType.Organisation
                     else -> error("unsupported owner type: ${repository.owner.type}")
                 }
             }
