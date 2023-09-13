@@ -6,17 +6,17 @@ import team.credible.action.versioncleaner.model.Package
 
 internal class DeletePackagesUseCase(
     private val packageRepository: PackageRepository,
-) : SuspendUseCase<DeletePackagesUseCase.Params, Collection<String>> {
+) : SuspendUseCase<DeletePackagesUseCase.Params, Result<Collection<String>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<String>> {
-        val result = when (input.ownerType) {
+        val results = when (input.ownerType) {
             OwnerType.User -> packageRepository.deleteUserPackages(input.packages)
-            OwnerType.Organisation -> packageRepository.deleteOrganizationPackages(input.packages)
+            OwnerType.Organisation -> packageRepository.deleteOrganisationPackages(input.packages)
         }
-        val names = result.flatMap {
+        val names = results.flatMap {
             it.getOrNull()?.let { listOf(it) } ?: listOf()
         }
-        val errors = result.flatMap {
+        val errors = results.flatMap {
             it.exceptionOrNull()?.let { listOf(it) } ?: listOf()
         }
         return if (errors.isNotEmpty()) {

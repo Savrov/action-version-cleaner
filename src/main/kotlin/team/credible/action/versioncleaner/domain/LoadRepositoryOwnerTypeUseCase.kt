@@ -4,19 +4,24 @@ import team.credible.action.versioncleaner.model.OwnerType
 
 internal class LoadRepositoryOwnerTypeUseCase(
     private val repositoryRepository: RepositoryRepository,
-) : SuspendUseCase<LoadRepositoryOwnerTypeUseCase.Params, OwnerType> {
+) : SuspendUseCase<LoadRepositoryOwnerTypeUseCase.Params, Result<OwnerType>> {
 
     override suspend fun invoke(input: Params): Result<OwnerType> {
-        return repositoryRepository.loadRepository(
-            owner = input.owner,
-            repository = input.repository,
-        ).map { repository ->
-            if (repository.owner.type == "User") {
-                OwnerType.User
-            } else {
-                OwnerType.Organisation
+        return runCatching {
+            repositoryRepository.loadRepository(
+                owner = input.owner,
+                repository = input.repository,
+            ).map { repository ->
+                when (repository.owner.type.lowercase()) {
+                    "user" -> OwnerType.User
+                    "organisation" -> OwnerType.Organisation
+                    else -> error("unsupported owner type: ${repository.owner.type}")
+                }
             }
-        }
+        }.fold(
+            onSuccess = { it },
+            onFailure = { Result.failure(it) },
+        )
     }
 
     data class Params(

@@ -12,14 +12,14 @@ internal class RemoteVersionDataSource(
     private val httpClient: HttpClient,
 ) : VersionDataSource {
 
-    override suspend fun getOrganizationVersions(
-        organization: String,
+    override suspend fun getOrganisationVersions(
+        organisation: String,
         packageName: String,
         packageType: String,
         page: Int,
     ): Result<Collection<Version>> {
         return runCatching {
-            httpClient.request("/orgs/$organization/packages/$packageType/$packageName/versions") {
+            httpClient.request("/orgs/$organisation/packages/$packageType/$packageName/versions") {
                 method = HttpMethod.Get
                 url {
                     parameters.append("page", "$page")
@@ -32,14 +32,14 @@ internal class RemoteVersionDataSource(
         }
     }
 
-    override suspend fun deleteOrganizationVersion(
+    override suspend fun deleteOrganisationVersion(
         versionId: Int,
-        organization: String,
+        organisation: String,
         packageName: String,
         packageType: String,
     ): Result<Int> {
         return deleteVersion(
-            url = "/orgs/$organization/packages/$packageType/$packageName/versions/$versionId",
+            url = "/orgs/$organisation/packages/$packageType/$packageName/versions/$versionId",
             versionId = versionId,
         )
     }

@@ -2,7 +2,7 @@
 
 [![Unit tests](https://github.com/credible-team/action-version-cleaner/actions/workflows/unit-test.yaml/badge.svg)](https://github.com/credible-team/action-version-cleaner/actions/workflows/unit-test.yaml)
 
-Github Action to clean version tags from a repository. It works both with USER and ORGANIZATION repositories.
+GitHub Action to clean version tags from a repository. It works both for User and Organisation repositories.
 
 ## Usage
 
@@ -30,7 +30,7 @@ Include the following step in your workflow to delete all SNAPSHOT packages from
 
 ## Token generation
 
-Since this action deletes packages, it requires a token with write and delete permissions. Follow the steps in official
+Since this action deletes packages, it requires a token with delete permission. Follow the steps in official
 documentation
 to [create a personal access token](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token)
 with the following permissions:
@@ -45,5 +45,5 @@ your [repository's secrets](https://docs.github.com/en/actions/security-guides/u
 use it in your workflow as shown in the [Usage](#usage) section.
 
 P.S. Default ```${{ secrets.GITHUB_TOKEN }}``` is not suitable for this action, because it has not enough permissions to
-read a package's repository.
+read a package's repository data.
 

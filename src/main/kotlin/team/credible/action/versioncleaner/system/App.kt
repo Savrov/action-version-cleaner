@@ -1,5 +1,8 @@
 package team.credible.action.versioncleaner.system
 
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.koin.core.context.startKoin
 import org.koin.environmentProperties
 import org.slf4j.Logger
@@ -7,12 +10,15 @@ import org.slf4j.LoggerFactory
 import team.credible.action.versioncleaner.di.module
 import team.credible.action.versioncleaner.domain.DeletePackagesUseCase
 import team.credible.action.versioncleaner.domain.DeleteVersionsUseCase
+import team.credible.action.versioncleaner.domain.FilterPackagesUseCase
+import team.credible.action.versioncleaner.domain.FilterVersionsUseCase
 import team.credible.action.versioncleaner.domain.LoadPackagesUseCase
 import team.credible.action.versioncleaner.domain.LoadRepositoryOwnerTypeUseCase
 import team.credible.action.versioncleaner.domain.LoadVersionsUseCase
 import team.credible.action.versioncleaner.model.Context
 import team.credible.action.versioncleaner.model.OwnerType
 import team.credible.action.versioncleaner.model.Package
+import team.credible.action.versioncleaner.model.PackageVersions
 import team.credible.action.versioncleaner.model.Version
 import kotlin.system.exitProcess
 
@@ -30,11 +36,24 @@ suspend fun main() {
                 logger.info("repository owner: ${ownerType.name.lowercase()}")
                 val packages = loadPackages(ownerType, context, get())
                 val packageVersionMap = loadVersions(packages, ownerType, get())
-                val deletedPackages = deletePackages(packageVersionMap, context.versionTag, ownerType, get())
-                info("packages deleted: ${deletedPackages.joinToString(separator = ", ").ifEmpty { "none" }}")
-                val deletedVersions =
-                    deleteVersions(packageVersionMap, context.versionTag, context.isVersionTagStrict, ownerType, get())
-                info("versions deleted: ${deletedVersions.joinToString(separator = ", ").ifEmpty { "none" }}")
+                coroutineScope {
+                    val deletePackagesJob = async {
+                        val packagesToDelete =
+                            filterPackages(packageVersionMap, context.versionTag, context.isVersionTagStrict, get())
+                        val deletedPackages = deletePackages(packagesToDelete, ownerType, get())
+                        info("packages deleted: ${deletedPackages.joinToString(separator = ", ").ifEmpty { "none" }}")
+                    }
+                    val deleteVersionsJob = async {
+                        val versionsToDelete =
+                            filterVersions(packageVersionMap, context.versionTag, context.isVersionTagStrict, get())
+                        val deletedVersions = deleteVersions(versionsToDelete, ownerType, get())
+                        info("versions deleted: ${deletedVersions.joinToString(separator = ", ").ifEmpty { "none" }}")
+                    }
+                    listOf(
+                        deletePackagesJob,
+                        deleteVersionsJob,
+                    ).awaitAll()
+                }
             }.fold(
                 onSuccess = { exitProcess(0) },
                 onFailure = {
@@ -113,19 +132,29 @@ private suspend fun loadVersions(
     )
 }
 
-context (Logger)
-private suspend fun deletePackages(
+private suspend fun filterPackages(
     packageVersionMap: Map<Package, Collection<Version>>,
     versionTag: String,
+    isVersionStrict: Boolean,
+    filterPackagesUseCase: FilterPackagesUseCase,
+): Collection<Package> {
+    val params = FilterPackagesUseCase.Params(
+        versionTag = versionTag,
+        isVersionTagStrict = isVersionStrict,
+        data = packageVersionMap,
+    )
+    return filterPackagesUseCase(params)
+}
+
+context (Logger)
+private suspend fun deletePackages(
+    data: Collection<Package>,
     ownerType: OwnerType,
     deletePackagesUseCase: DeletePackagesUseCase,
 ): Collection<String> {
-    val dataToDelete = packageVersionMap.filterValues {
-        it.count() == 1 && it.all { it.name.contains(versionTag) }
-    }
     val params = DeletePackagesUseCase.Params(
         ownerType = ownerType,
-        packages = dataToDelete.keys,
+        packages = data,
     )
     return deletePackagesUseCase(params).fold(
         onSuccess = { it },
@@ -136,29 +165,34 @@ private suspend fun deletePackages(
     )
 }
 
-context (Logger)
-private suspend fun deleteVersions(
+private suspend fun filterVersions(
     packageVersionMap: Map<Package, Collection<Version>>,
     versionTag: String,
     isVersionStrict: Boolean,
+    filterVersionsUseCase: FilterVersionsUseCase,
+): Collection<PackageVersions> {
+    val params = FilterVersionsUseCase.Params(
+        versionTag = versionTag,
+        isVersionTagStrict = isVersionStrict,
+        data = packageVersionMap,
+    )
+    return filterVersionsUseCase(params)
+}
+
+context (Logger)
+private suspend fun deleteVersions(
+    data: Collection<PackageVersions>,
     ownerType: OwnerType,
     deleteVersionsUseCase: DeleteVersionsUseCase,
 ): Collection<String> {
-    val dataToDelete = packageVersionMap.filterValues {
-        it.count() > 1 && it.all { it.name.contains(versionTag) }
-    }
     val params = DeleteVersionsUseCase.Params(
         ownerType = ownerType,
-        versionTag = versionTag,
-        isVersionTagStrict = isVersionStrict,
-        data = dataToDelete,
+        data = data,
     )
     return deleteVersionsUseCase(params).fold(
-        onSuccess = {
-            it.map { id ->
-                packageVersionMap.flatMap { entry ->
-                    entry.value.filter { it.id == id }.map { "${entry.key.name}#${it.id}" }
-                }.toString()
+        onSuccess = { ids ->
+            data.map { item ->
+                "${item.packageName}:${item.versionIds.intersect(ids.toSet())}"
             }
         },
         onFailure = {

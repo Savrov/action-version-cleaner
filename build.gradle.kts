@@ -17,9 +17,6 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
-    testImplementation(kotlin("test"))
-
     val versionKtor = "2.3.4"
     implementation("io.ktor:ktor-client-core:$versionKtor")
     implementation("io.ktor:ktor-client-apache5:$versionKtor")
@@ -29,19 +26,27 @@ dependencies {
 
     val versionKoin = "3.4.3"
     implementation("io.insert-koin:koin-core:$versionKoin")
+    testImplementation("io.insert-koin:koin-test:$versionKoin")
 
     implementation("org.slf4j:slf4j-api:1.7.32")
     implementation("ch.qos.logback:logback-classic:1.2.9")
-}
 
-tasks.test {
-    useJUnitPlatform()
+    val versionKotest = "5.7.2"
+    testImplementation("io.kotest:kotest-runner-junit5:$versionKotest")
+    testImplementation("io.kotest:kotest-assertions-core:$versionKotest")
+    testImplementation("io.kotest:kotest-property:$versionKotest")
+
+    testImplementation("io.mockk:mockk:1.13.7")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + "-Xcontext-receivers"
     }
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 spotless {

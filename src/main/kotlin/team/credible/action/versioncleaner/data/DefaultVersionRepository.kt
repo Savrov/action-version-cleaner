@@ -11,8 +11,8 @@ internal class DefaultVersionRepository(
     private val versionDataSource: VersionDataSource,
     private val coroutineContext: CoroutineContext,
 ) : VersionRepository {
-    override suspend fun loadOrganizationVersions(
-        organization: String,
+    override suspend fun loadOrganisationVersions(
+        organisation: String,
         packageName: String,
         packageType: String,
     ): Result<Collection<Version>> {
@@ -22,8 +22,8 @@ internal class DefaultVersionRepository(
             var page = 0
             do {
                 page++
-                versionDataSource.getOrganizationVersions(
-                    organization = organization,
+                versionDataSource.getOrganisationVersions(
+                    organisation = organisation,
                     packageName = packageName,
                     packageType = packageType,
                     page = page,
@@ -41,8 +41,8 @@ internal class DefaultVersionRepository(
         }
     }
 
-    override suspend fun deleteOrganizationVersions(
-        organization: String,
+    override suspend fun deleteOrganisationVersions(
+        organisation: String,
         packageName: String,
         packageType: String,
         versionIds: Collection<Int>,
@@ -50,9 +50,9 @@ internal class DefaultVersionRepository(
         return withContext(coroutineContext) {
             val jobs = versionIds.map {
                 async {
-                    versionDataSource.deleteOrganizationVersion(
+                    versionDataSource.deleteOrganisationVersion(
                         versionId = it,
-                        organization = organization,
+                        organisation = organisation,
                         packageName = packageName,
                         packageType = packageType,
                     )

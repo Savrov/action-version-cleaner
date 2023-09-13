@@ -4,13 +4,13 @@ import team.credible.action.versioncleaner.model.Package
 
 interface PackageDataSource {
 
-    suspend fun loadOrganizationPackages(
-        organization: String,
+    suspend fun loadOrganisationPackages(
+        organisation: String,
         packageType: String,
     ): Result<Collection<Package>>
 
-    suspend fun deleteOrganizationPackage(
-        organization: String,
+    suspend fun deleteOrganisationPackage(
+        organisation: String,
         packageName: String,
         packageType: String,
     ): Result<String>

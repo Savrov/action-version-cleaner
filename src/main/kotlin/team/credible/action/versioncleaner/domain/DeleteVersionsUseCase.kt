@@ -2,42 +2,33 @@ package team.credible.action.versioncleaner.domain
 
 import team.credible.action.versioncleaner.model.ExceptionsBundle
 import team.credible.action.versioncleaner.model.OwnerType
-import team.credible.action.versioncleaner.model.Package
-import team.credible.action.versioncleaner.model.Version
+import team.credible.action.versioncleaner.model.PackageVersions
 
 internal class DeleteVersionsUseCase(
     private val versionRepository: VersionRepository,
-) : SuspendUseCase<DeleteVersionsUseCase.Params, Collection<Int>> {
+) : SuspendUseCase<DeleteVersionsUseCase.Params, Result<Collection<Int>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<Int>> {
         val versionIds = when (input.ownerType) {
             OwnerType.User ->
                 input.data
-                    .flatMap { entry ->
+                    .flatMap { item ->
                         versionRepository.deleteUserVersions(
-                            user = entry.key.owner.login,
-                            packageName = entry.key.name,
-                            packageType = entry.key.packageType,
-                            versionIds = filterVersionIds(
-                                versions = entry.value,
-                                tag = input.versionTag,
-                                isStrict = input.isVersionTagStrict,
-                            ),
+                            user = item.owner,
+                            packageName = item.packageName,
+                            packageType = item.packageType,
+                            versionIds = item.versionIds,
                         )
                     }
 
             OwnerType.Organisation ->
                 input.data
-                    .flatMap { entry ->
-                        versionRepository.deleteOrganizationVersions(
-                            organization = entry.key.owner.login,
-                            packageName = entry.key.name,
-                            packageType = entry.key.packageType,
-                            versionIds = filterVersionIds(
-                                versions = entry.value,
-                                tag = input.versionTag,
-                                isStrict = input.isVersionTagStrict,
-                            ),
+                    .flatMap { item ->
+                        versionRepository.deleteOrganisationVersions(
+                            organisation = item.owner,
+                            packageName = item.packageName,
+                            packageType = item.packageType,
+                            versionIds = item.versionIds,
                         )
                     }
         }
@@ -54,22 +45,8 @@ internal class DeleteVersionsUseCase(
         }
     }
 
-    private fun filterVersionIds(versions: Collection<Version>, tag: String, isStrict: Boolean): Collection<Int> {
-        return versions.filter {
-            if (isStrict) {
-                it.name == tag
-            } else {
-                it.name.contains(tag)
-            }
-        }.map {
-            it.id
-        }
-    }
-
     data class Params(
         val ownerType: OwnerType,
-        val versionTag: String,
-        val isVersionTagStrict: Boolean,
-        val data: Map<Package, Collection<Version>>,
+        val data: Collection<PackageVersions>,
     )
 }

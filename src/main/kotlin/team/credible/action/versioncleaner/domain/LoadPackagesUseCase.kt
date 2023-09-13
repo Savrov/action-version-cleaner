@@ -5,7 +5,7 @@ import team.credible.action.versioncleaner.model.Package
 
 internal class LoadPackagesUseCase(
     private val packageRepository: PackageRepository,
-) : SuspendUseCase<LoadPackagesUseCase.Params, Collection<Package>> {
+) : SuspendUseCase<LoadPackagesUseCase.Params, Result<Collection<Package>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<Package>> {
         val packages = when (input.ownerType) {
@@ -14,8 +14,8 @@ internal class LoadPackagesUseCase(
                 packageType = input.packageType,
             )
 
-            OwnerType.Organisation -> packageRepository.loadOrganizationPackages(
-                organization = input.owner,
+            OwnerType.Organisation -> packageRepository.loadOrganisationPackages(
+                organisation = input.owner,
                 packageType = input.packageType,
             )
         }

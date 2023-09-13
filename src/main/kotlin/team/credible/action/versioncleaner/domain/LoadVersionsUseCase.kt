@@ -5,7 +5,7 @@ import team.credible.action.versioncleaner.model.Version
 
 internal class LoadVersionsUseCase(
     private val versionRepository: VersionRepository,
-) : SuspendUseCase<LoadVersionsUseCase.Params, Collection<Version>> {
+) : SuspendUseCase<LoadVersionsUseCase.Params, Result<Collection<Version>>> {
 
     override suspend fun invoke(input: Params): Result<Collection<Version>> {
         return when (input.ownerType) {
@@ -15,8 +15,8 @@ internal class LoadVersionsUseCase(
                 packageType = input.packageType,
             )
 
-            OwnerType.Organisation -> versionRepository.loadOrganizationVersions(
-                organization = input.owner,
+            OwnerType.Organisation -> versionRepository.loadOrganisationVersions(
+                organisation = input.owner,
                 packageName = input.packageName,
                 packageType = input.packageType,
             )
