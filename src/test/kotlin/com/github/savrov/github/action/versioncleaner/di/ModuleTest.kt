@@ -10,7 +10,7 @@ class ModuleTest : StringSpec({
         koinApplication {
             modules(module)
             checkModules {
-                withProperty("GITHUB_REPOSITORY", "credible-team/version-cleaner")
+                withProperty("GITHUB_REPOSITORY", "Savrov/github-action-version-cleaner")
                 withProperty("PACKAGE_TYPE", "maven")
                 withProperty("PACKAGE_NAME", "package")
                 withProperty("VERSION_TAG", "SNAPSHOT")

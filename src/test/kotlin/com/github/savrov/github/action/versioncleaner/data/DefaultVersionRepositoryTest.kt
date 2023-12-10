@@ -10,7 +10,7 @@ import io.mockk.mockk
 class DefaultVersionRepositoryTest : StringSpec({
 
     val versionDataSource = mockk<VersionDataSource>()
-    val owner = "credible-team"
+    val owner = "Savrov"
     val packageType = "maven"
     val packageName = "package"
 

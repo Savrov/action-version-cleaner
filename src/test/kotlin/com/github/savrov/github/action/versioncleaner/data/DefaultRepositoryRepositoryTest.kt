@@ -10,7 +10,7 @@ import io.mockk.mockk
 class DefaultRepositoryRepositoryTest : StringSpec({
 
     val repositoryDataSource = mockk<RepositoryDataSource>()
-    val owner = "credible-team"
+    val owner = "Savrov"
     val repo = "version-cleaner"
 
     """when dataSource loadRepository returns failure result, 

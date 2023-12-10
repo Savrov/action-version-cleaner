@@ -1,6 +1,6 @@
 # Version Cleaner
 
-[![Unit tests](https://github.com/credible-team/action-version-cleaner/actions/workflows/unit-test.yaml/badge.svg)](https://github.com/credible-team/action-version-cleaner/actions/workflows/unit-test.yaml)
+[![Unit tests](https://github.com/Savrov/github-action-version-cleaner/actions/workflows/unit-test.yaml/badge.svg)](https://github.com/credible-team/action-version-cleaner/actions/workflows/unit-test.yaml)
 
 GitHub Action to clean version tags from a repository. It works both for User and Organisation repositories.
 
@@ -10,7 +10,7 @@ Include the following step in your workflow to delete all SNAPSHOT packages from
 
 ```yaml
 - name: Delete SNAPSHOT packages
-  uses: credible-team/action-version-cleaner@v1.0.0
+  uses: Savrov/github-action-version-cleaner@v1.0.0
   with:
     github-repository: ${{ github.repository }}
     package-type: maven

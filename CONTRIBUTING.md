@@ -11,7 +11,7 @@ We welcome contributions from everyone. Here are the general steps to get you st
 2. Clone your forked repository to your local machine.
 
    ```
-    git clone https://github.com/credible-team/action-version-cleaner.git
+    git clone https://github.com/Savrov/github-action-version-cleaner.git
    ```
 
 3. Create a new branch for your work.

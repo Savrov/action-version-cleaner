@@ -10,7 +10,7 @@ import io.mockk.mockk
 class DefaultPackageRepositoryTest : StringSpec({
 
     val packageDataSource = mockk<PackageDataSource>()
-    val owner = "credible-team"
+    val owner = "Savrov"
     val packageType = "maven"
 
     """when dataSource loadOrganisationPackages returns failure result, 
